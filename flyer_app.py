@@ -396,7 +396,7 @@ LOGIN_PAGE = """<!DOCTYPE html>
   <div class="main">
     <div class="login-card">
       <h1>Login</h1>
-      <p class="subtitle">Enter your email and password from Sign up, or use admin / password123.</p>
+      <p class="subtitle">Enter your email and password from Sign up.</p>
 
       {% with messages = get_flashed_messages(category_filter=["login_error"]) %}
         {% if messages %}
