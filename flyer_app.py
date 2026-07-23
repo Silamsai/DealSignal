@@ -43,7 +43,7 @@ from functools import wraps
 
 import requests
 from dotenv import load_dotenv
-from flask import Flask, render_template_string, request, redirect, url_for, flash, session
+from flask import Flask, render_template_string, request, redirect, url_for, flash, session, get_flashed_messages
 from werkzeug.security import check_password_hash, generate_password_hash
 
 load_dotenv()
