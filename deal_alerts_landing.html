@@ -1,0 +1,1232 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DealSignal — Motivated Seller Intelligence for Property Investors | Bradford</title>
+  <meta name="description"
+    content="Weekly ranked digest of the most motivated sellers in Bradford. Collapsed chains, repeated price cuts, stale listings — scored from 30 years of market data. Built for serious property investors.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap"
+    rel="stylesheet">
+  <style>
+    /* ===== DESIGN SYSTEM ===== */
+    :root {
+      --slate-950: #020617;
+      --slate-900: #0f172a;
+      --slate-800: #1e293b;
+      --slate-700: #334155;
+      --slate-600: #475569;
+      --slate-500: #64748b;
+      --slate-400: #94a3b8;
+      --slate-300: #cbd5e1;
+      --slate-200: #e2e8f0;
+      --slate-100: #f1f5f9;
+      --slate-50: #f8fafc;
+      --white: #ffffff;
+      --emerald-700: #047857;
+      --emerald-600: #059669;
+      --emerald-500: #10b981;
+      --emerald-50: #ecfdf5;
+      --amber-500: #f59e0b;
+      --red-500: #ef4444;
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --mono: 'JetBrains Mono', 'Consolas', monospace;
+    }
+
+    /* ===== RESET & BASE ===== */
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      font-family: var(--font);
+      color: var(--slate-900);
+      background: var(--white);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* ===== LAYOUT ===== */
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    .container--narrow {
+      max-width: 720px;
+    }
+
+    .container--wide {
+      max-width: 1280px;
+    }
+
+    /* ===== HEADER ===== */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--slate-200);
+      transition: box-shadow 0.3s;
+    }
+
+    .header.scrolled {
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    }
+
+    .header__inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 64px;
+    }
+
+    .header__logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      font-size: 1.05rem;
+      color: var(--slate-900);
+      letter-spacing: -0.03em;
+    }
+
+    .header__logo-mark {
+      width: 30px;
+      height: 30px;
+      border-radius: 4px;
+      background: var(--slate-900);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 800;
+      font-size: 1rem;
+      letter-spacing: -0.02em;
+    }
+
+    .header__logo-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.05;
+    }
+
+    .header__logo-text strong {
+      font-size: 1.05rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+    }
+
+    .header__logo-text span {
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--slate-500);
+    }
+
+    .header__nav {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+
+    .header__link {
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--slate-600);
+      transition: color 0.2s;
+    }
+
+    .header__link:hover {
+      color: var(--slate-900);
+    }
+
+    .header__cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--slate-900);
+      color: var(--white);
+      font-size: 0.88rem;
+      font-weight: 600;
+      padding: 9px 20px;
+      border-radius: 8px;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .header__cta:hover {
+      background: var(--slate-800);
+      transform: translateY(-1px);
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      padding: 140px 0 100px;
+      background: var(--slate-50);
+      border-bottom: 1px solid var(--slate-200);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: -200px;
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, rgba(5, 150, 105, 0.04) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero__badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--emerald-50);
+      color: var(--emerald-700);
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      padding: 6px 14px;
+      border-radius: 100px;
+      border: 1px solid rgba(5, 150, 105, 0.15);
+      margin-bottom: 24px;
+    }
+
+    .hero__badge-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--emerald-500);
+      animation: pulse 2.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1;
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.5);
+      }
+
+      50% {
+        opacity: 0.8;
+        box-shadow: 0 0 0 4px rgba(16, 185, 129, 0);
+      }
+    }
+
+    .hero__title {
+      font-size: clamp(2.4rem, 4.5vw, 3.6rem);
+      font-weight: 800;
+      line-height: 1.08;
+      letter-spacing: -0.035em;
+      color: var(--slate-950);
+      max-width: 680px;
+      margin-bottom: 20px;
+    }
+
+    .hero__subtitle {
+      font-size: 1.15rem;
+      line-height: 1.7;
+      color: var(--slate-600);
+      max-width: 540px;
+      margin-bottom: 36px;
+    }
+
+    .hero__actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font);
+      font-weight: 600;
+      font-size: 0.95rem;
+      border: none;
+      cursor: pointer;
+      border-radius: 10px;
+      transition: all 0.2s ease;
+    }
+
+    .btn--primary {
+      background: var(--slate-900);
+      color: var(--white);
+      padding: 14px 28px;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .btn--primary:hover {
+      background: var(--slate-800);
+      transform: translateY(-1px);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08), 0 8px 24px rgba(0, 0, 0, 0.12);
+    }
+
+    .btn--ghost {
+      background: transparent;
+      color: var(--slate-600);
+      padding: 14px 8px;
+    }
+
+    .btn--ghost:hover {
+      color: var(--slate-900);
+    }
+
+    .btn--ghost svg {
+      transition: transform 0.2s;
+    }
+
+    .btn--ghost:hover svg {
+      transform: translateX(2px);
+    }
+
+    .hero__proof {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 28px;
+      font-size: 0.82rem;
+      color: var(--slate-500);
+    }
+
+    .hero__proof svg {
+      flex-shrink: 0;
+      color: var(--emerald-600);
+    }
+
+    /* ===== METRICS BAR ===== */
+    .metrics {
+      background: var(--slate-900);
+      padding: 0;
+      border-bottom: 1px solid var(--slate-800);
+    }
+
+    .metrics__grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .metrics__item {
+      padding: 32px 24px;
+      text-align: center;
+      border-right: 1px solid var(--slate-800);
+    }
+
+    .metrics__item:last-child {
+      border-right: none;
+    }
+
+    .metrics__value {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: -0.02em;
+      font-family: var(--mono);
+    }
+
+    .metrics__label {
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--slate-400);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-top: 4px;
+    }
+
+    /* ===== SECTIONS ===== */
+    .section {
+      padding: 100px 0;
+    }
+
+    .section--alt {
+      background: var(--slate-50);
+      border-top: 1px solid var(--slate-200);
+      border-bottom: 1px solid var(--slate-200);
+    }
+
+    .section__eyebrow {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--emerald-700);
+      margin-bottom: 12px;
+    }
+
+    .section__title {
+      font-size: clamp(1.5rem, 2.5vw, 2rem);
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      color: var(--slate-950);
+      margin-bottom: 12px;
+    }
+
+    .section__desc {
+      font-size: 1rem;
+      color: var(--slate-500);
+      max-width: 520px;
+      line-height: 1.7;
+      margin-bottom: 48px;
+    }
+
+    /* ===== HOW IT WORKS ===== */
+    .process {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--slate-200);
+      border: 1px solid var(--slate-200);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .process__step {
+      background: var(--white);
+      padding: 36px 28px;
+      position: relative;
+    }
+
+    .process__num {
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--slate-400);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .process__num::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--slate-200);
+    }
+
+    .process__step-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--slate-900);
+      margin-bottom: 8px;
+    }
+
+    .process__step-desc {
+      font-size: 0.88rem;
+      color: var(--slate-500);
+      line-height: 1.65;
+    }
+
+    /* ===== DIGEST PREVIEW ===== */
+    .digest-preview {
+      border: 1px solid var(--slate-200);
+      border-radius: 16px;
+      overflow: hidden;
+      background: var(--white);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 8px 32px rgba(0, 0, 0, 0.04);
+    }
+
+    .digest-preview__header {
+      background: var(--slate-900);
+      color: var(--white);
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .digest-preview__header svg {
+      flex-shrink: 0;
+      opacity: 0.6;
+    }
+
+    .digest-preview__date {
+      margin-left: auto;
+      font-size: 0.78rem;
+      font-weight: 400;
+      color: var(--slate-400);
+    }
+
+    .digest-preview__row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 16px;
+      align-items: flex-start;
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--slate-100);
+      transition: background 0.15s;
+    }
+
+    .digest-preview__row:hover {
+      background: var(--slate-50);
+    }
+
+    .digest-preview__rank {
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--slate-400);
+      margin-bottom: 2px;
+    }
+
+    .digest-preview__address {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--slate-900);
+      margin-bottom: 4px;
+    }
+
+    .digest-preview__meta {
+      font-size: 0.82rem;
+      color: var(--slate-500);
+      margin-bottom: 6px;
+    }
+
+    .digest-preview__signals {
+      font-size: 0.8rem;
+      color: var(--emerald-700);
+      line-height: 1.6;
+    }
+
+    .digest-preview__signals span {
+      display: block;
+    }
+
+    .digest-preview__score {
+      align-self: center;
+      font-family: var(--mono);
+      font-size: 0.82rem;
+      font-weight: 500;
+      background: var(--slate-900);
+      color: var(--white);
+      padding: 5px 14px;
+      border-radius: 100px;
+      white-space: nowrap;
+    }
+
+    .digest-preview__locked {
+      padding: 14px 24px;
+      background: var(--slate-50);
+      font-size: 0.82rem;
+      color: var(--slate-500);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-top: 1px solid var(--slate-200);
+    }
+
+    .digest-preview__locked svg {
+      flex-shrink: 0;
+      color: var(--slate-400);
+    }
+
+    /* ===== PRICING ===== */
+    .pricing {
+      text-align: center;
+    }
+
+    .pricing__card {
+      max-width: 460px;
+      margin: 0 auto;
+      background: var(--white);
+      border: 1px solid var(--slate-200);
+      border-radius: 16px;
+      padding: 44px 40px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 8px 32px rgba(0, 0, 0, 0.06);
+      text-align: left;
+      position: relative;
+    }
+
+    .pricing__label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--emerald-700);
+      margin-bottom: 16px;
+    }
+
+    .pricing__amount {
+      font-size: 3rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--slate-950);
+    }
+
+    .pricing__amount span {
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--slate-500);
+    }
+
+    .pricing__desc {
+      font-size: 0.88rem;
+      color: var(--slate-500);
+      margin: 8px 0 28px;
+      line-height: 1.6;
+    }
+
+    .pricing__features {
+      list-style: none;
+      margin-bottom: 32px;
+      border-top: 1px solid var(--slate-100);
+      padding-top: 20px;
+    }
+
+    .pricing__features li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 10px 0;
+      font-size: 0.9rem;
+      color: var(--slate-700);
+    }
+
+    .pricing__features li svg {
+      flex-shrink: 0;
+      margin-top: 2px;
+      color: var(--emerald-600);
+    }
+
+    .pricing__cta {
+      display: block;
+      width: 100%;
+      text-align: center;
+      background: var(--slate-900);
+      color: var(--white);
+      font-family: var(--font);
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 16px 32px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06), 0 4px 12px rgba(0, 0, 0, 0.06);
+    }
+
+    .pricing__cta:hover {
+      background: var(--slate-800);
+      transform: translateY(-1px);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06), 0 8px 24px rgba(0, 0, 0, 0.1);
+    }
+
+    .pricing__guarantee {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-size: 0.78rem;
+      color: var(--slate-400);
+      margin-top: 16px;
+    }
+
+    .pricing__guarantee svg {
+      flex-shrink: 0;
+    }
+
+    /* ===== FAQ ===== */
+    .faq__list {
+      max-width: 680px;
+    }
+
+    .faq__item {
+      border-bottom: 1px solid var(--slate-200);
+    }
+
+    .faq__item:first-child {
+      border-top: 1px solid var(--slate-200);
+    }
+
+    .faq__trigger {
+      width: 100%;
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 0;
+      font-family: var(--font);
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--slate-900);
+      text-align: left;
+    }
+
+    .faq__trigger:hover {
+      color: var(--slate-700);
+    }
+
+    .faq__icon {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      position: relative;
+      margin-left: 16px;
+    }
+
+    .faq__icon::before,
+    .faq__icon::after {
+      content: '';
+      position: absolute;
+      background: var(--slate-400);
+      transition: transform 0.25s ease;
+    }
+
+    .faq__icon::before {
+      left: 0;
+      top: 50%;
+      width: 100%;
+      height: 1.5px;
+      transform: translateY(-50%);
+    }
+
+    .faq__icon::after {
+      top: 0;
+      left: 50%;
+      width: 1.5px;
+      height: 100%;
+      transform: translateX(-50%);
+    }
+
+    .faq__item.open .faq__icon::after {
+      transform: translateX(-50%) rotate(90deg);
+    }
+
+    .faq__answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease, padding 0.3s ease;
+    }
+
+    .faq__item.open .faq__answer {
+      max-height: 200px;
+    }
+
+    .faq__answer p {
+      padding: 0 0 20px;
+      font-size: 0.9rem;
+      color: var(--slate-500);
+      line-height: 1.7;
+      max-width: 580px;
+    }
+
+    /* ===== CTA BAND ===== */
+    .cta-band {
+      background: var(--slate-900);
+      padding: 72px 0;
+      text-align: center;
+    }
+
+    .cta-band__title {
+      font-size: clamp(1.4rem, 2.5vw, 1.8rem);
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+
+    .cta-band__desc {
+      font-size: 0.95rem;
+      color: var(--slate-400);
+      margin-bottom: 28px;
+    }
+
+    .cta-band .btn--primary {
+      background: var(--white);
+      color: var(--slate-900);
+    }
+
+    .cta-band .btn--primary:hover {
+      background: var(--slate-100);
+    }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      padding: 40px 0;
+      border-top: 1px solid var(--slate-200);
+    }
+
+    .footer__inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .footer__left {
+      font-size: 0.78rem;
+      color: var(--slate-400);
+      line-height: 1.7;
+    }
+
+    .footer__right {
+      font-size: 0.78rem;
+      color: var(--slate-400);
+    }
+
+    /* ===== SCROLL REVEAL ===== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      .container {
+        padding: 0 20px;
+      }
+
+      .hero {
+        padding: 120px 0 64px;
+      }
+
+      .process {
+        grid-template-columns: 1fr;
+      }
+
+      .metrics__grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .metrics__item:nth-child(2) {
+        border-right: none;
+      }
+
+      .metrics__item:nth-child(3) {
+        border-top: 1px solid var(--slate-800);
+      }
+
+      .metrics__item:nth-child(4) {
+        border-top: 1px solid var(--slate-800);
+      }
+
+      .section {
+        padding: 64px 0;
+      }
+
+      .header__nav-links {
+        display: none;
+      }
+
+      .pricing__card {
+        padding: 32px 24px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .metrics__grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .hero__actions {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header class="header" id="header">
+    <div class="container header__inner">
+      <a class="header__logo" href="/">
+        <div class="header__logo-mark" aria-hidden="true">D</div>
+        <strong style="font-size:1.15rem;letter-spacing:-0.04em;font-weight:800;color:var(--slate-900);">DealSignal</strong>
+      </a>
+      <nav class="header__nav">
+        <span class="header__nav-links">
+          <a class="header__link" href="#how-it-works">How it works</a>
+          <a class="header__link" href="#sample">Sample</a>
+          <a class="header__link" href="#pricing">Pricing</a>
+          <a class="header__link" href="#faq">FAQ</a>
+          <a class="header__link" href="/" style="color:var(--slate-500);font-weight:600;">← Home</a>
+          <a class="header__link" href="/login" style="color:var(--emerald-600);font-weight:700;">Staff login ↗</a>
+        </span>
+        <a class="header__cta" href="#pricing">Get started</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero__badge">
+        <span class="hero__badge-dot"></span>
+        Covering all Bradford BD postcodes
+      </div>
+      <h1 class="hero__title">Motivated seller intelligence, delivered every Monday.</h1>
+      <p class="hero__subtitle">We scan every active listing in Bradford against 30 years of market data. You get a
+        ranked shortlist of the 10 sellers most likely to accept a below-market offer.</p>
+      <div class="hero__actions">
+        <a class="btn btn--primary" href="https://buy.stripe.com/YOUR_PAYMENT_LINK">Subscribe — £79/month</a>
+        <a class="btn btn--ghost" href="/login">Staff login ↗</a>
+        <a class="btn btn--ghost" href="#sample" style="border:none;">
+          See a sample
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14" />
+            <path d="m12 5 7 7-7 7" />
+          </svg>
+        </a>
+      </div>
+      <div class="hero__proof">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+        </svg>
+        Cancel anytime · First digest within 7 days · No contract
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== METRICS ===== -->
+  <div class="metrics">
+    <div class="container--wide">
+      <div class="metrics__grid">
+        <div class="metrics__item">
+          <div class="metrics__value">200+</div>
+          <div class="metrics__label">Listings scanned weekly</div>
+        </div>
+        <div class="metrics__item">
+          <div class="metrics__value">30 yrs</div>
+          <div class="metrics__label">Market data depth</div>
+        </div>
+        <div class="metrics__item">
+          <div class="metrics__value">Top 10</div>
+          <div class="metrics__label">Ranked each Monday</div>
+        </div>
+        <div class="metrics__item">
+          <div class="metrics__value">07:00</div>
+          <div class="metrics__label">In your inbox</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== HOW IT WORKS ===== -->
+  <section class="section" id="how-it-works">
+    <div class="container">
+      <div class="section__eyebrow reveal">How it works</div>
+      <h2 class="section__title reveal">From raw data to actionable shortlist.</h2>
+      <p class="section__desc reveal">No manual Rightmove scrolling. No spreadsheets. The scoring engine does the
+        analysis — you do the deals.</p>
+
+      <div class="process reveal">
+        <div class="process__step">
+          <div class="process__num">01</div>
+          <h3 class="process__step-title">Ingest</h3>
+          <p class="process__step-desc">Every active listing in Bradford is pulled via the Homedata API — price history,
+            listing events, agent changes, days on market.</p>
+        </div>
+        <div class="process__step">
+          <div class="process__num">02</div>
+          <h3 class="process__step-title">Score</h3>
+          <p class="process__step-desc">Each property is scored against motivation signals: collapsed chains, repeated
+            price reductions, STC failures, withdrawals, and re-listings. Signals stack.</p>
+        </div>
+        <div class="process__step">
+          <div class="process__num">03</div>
+          <h3 class="process__step-title">Deliver</h3>
+          <p class="process__step-desc">Monday 7am: a ranked top 10 hits your inbox with the evidence trail for each
+            property. You approach the agent or the owner before anyone else.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SAMPLE DIGEST ===== -->
+  <section class="section section--alt" id="sample">
+    <div class="container">
+      <div class="section__eyebrow reveal">Sample digest</div>
+      <h2 class="section__title reveal">What you receive every Monday.</h2>
+      <p class="section__desc reveal">Real format, illustrative data. Subscribers get full addresses, agent names, and
+        listing links.</p>
+
+      <div class="digest-preview reveal">
+        <div class="digest-preview__header">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="20" x2="18" y2="10" />
+            <line x1="12" y1="20" x2="12" y2="4" />
+            <line x1="6" y1="20" x2="6" y2="14" />
+          </svg>
+          Motivated Seller Digest — Bradford
+          <span class="digest-preview__date">Week of 14 July 2026</span>
+        </div>
+
+        <div class="digest-preview__row">
+          <div>
+            <div class="digest-preview__rank">#1</div>
+            <div class="digest-preview__address">Semi-detached, BD9 (Heaton)</div>
+            <div class="digest-preview__meta">3 bed · £165,000 · 214 days on market</div>
+            <div class="digest-preview__signals">
+              <span>Chain collapse: Sold STC in March, back on market</span>
+              <span>3 price cuts, down 12% overall</span>
+            </div>
+          </div>
+          <div class="digest-preview__score">15</div>
+        </div>
+
+        <div class="digest-preview__row">
+          <div>
+            <div class="digest-preview__rank">#2</div>
+            <div class="digest-preview__address">Terraced, BD4 (Tong)</div>
+            <div class="digest-preview__meta">2 bed · £89,950 · 156 days on market</div>
+            <div class="digest-preview__signals">
+              <span>Withdrawn with previous agent, re-listed</span>
+              <span>2 price cuts, down 10%</span>
+            </div>
+          </div>
+          <div class="digest-preview__score">11</div>
+        </div>
+
+        <div class="digest-preview__row">
+          <div>
+            <div class="digest-preview__rank">#3</div>
+            <div class="digest-preview__address">Detached, BD16 (Bingley)</div>
+            <div class="digest-preview__meta">4 bed · £280,000 · 121 days on market</div>
+            <div class="digest-preview__signals">
+              <span>2 price cuts</span>
+              <span>Had an offer, back on market</span>
+            </div>
+          </div>
+          <div class="digest-preview__score">9</div>
+        </div>
+
+        <div class="digest-preview__locked">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+            <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+          </svg>
+          7 more properties in the full digest — with agent names, evidence trails, and listing links.
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== PRICING ===== -->
+  <section class="section pricing" id="pricing">
+    <div class="container">
+      <div class="section__eyebrow reveal">Pricing</div>
+      <h2 class="section__title reveal" style="text-align:center">One plan. Everything included.</h2>
+      <p class="section__desc reveal" style="text-align:center;margin-left:auto;margin-right:auto">Less than the profit
+        on a single per-cent of one negotiation.</p>
+
+      <div class="pricing__card reveal">
+        <div class="pricing__label">Bradford District — All BD postcodes</div>
+        <div class="pricing__amount">£79 <span>/month</span></div>
+        <p class="pricing__desc">Billed monthly. Cancel in one click, no questions asked. Want a different area? Reply
+          to any digest.</p>
+        <ul class="pricing__features">
+          <li>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+              stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12" />
+            </svg>
+            Ranked top 10 motivated sellers, every Monday
+          </li>
+          <li>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+              stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12" />
+            </svg>
+            Full scoring evidence and motivation signals
+          </li>
+          <li>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+              stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12" />
+            </svg>
+            Agent names for every property
+          </li>
+          <li>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+              stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12" />
+            </svg>
+            30 years of market data powering each score
+          </li>
+          <li>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+              stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12" />
+            </svg>
+            No contract, no lock-in — cancel anytime
+          </li>
+        </ul>
+        <a class="pricing__cta" href="https://buy.stripe.com/YOUR_PAYMENT_LINK">Start your subscription</a>
+        <div class="pricing__guarantee">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+          </svg>
+          Not useful after your first month? We'll refund it, no questions asked.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FAQ ===== -->
+  <section class="section section--alt" id="faq">
+    <div class="container">
+      <div class="section__eyebrow reveal">FAQ</div>
+      <h2 class="section__title reveal">Common questions.</h2>
+      <div class="faq__list">
+
+        <div class="faq__item reveal">
+          <button class="faq__trigger" onclick="this.parentElement.classList.toggle('open')">
+            Where does the data come from?
+            <span class="faq__icon"></span>
+          </button>
+          <div class="faq__answer">
+            <p>Licensed UK market-activity data covering 90%+ of listings via Homedata and Home.co.uk, combined with
+              public Land Registry records. We analyse listing events — we don't scrape portals.</p>
+          </div>
+        </div>
+
+        <div class="faq__item reveal">
+          <button class="faq__trigger" onclick="this.parentElement.classList.toggle('open')">
+            Are these off-market properties?
+            <span class="faq__icon"></span>
+          </button>
+          <div class="faq__answer">
+            <p>No — these are live, on-market listings. The edge is the analysis: motivation signals are spread across
+              months of listing history that nobody reviews manually. You act first because you see the pattern, not
+              because the property is hidden.</p>
+          </div>
+        </div>
+
+        <div class="faq__item reveal">
+          <button class="faq__trigger" onclick="this.parentElement.classList.toggle('open')">
+            How do I approach the sellers?
+            <span class="faq__icon"></span>
+          </button>
+          <div class="faq__answer">
+            <p>Through the listing agent, like any offer — the digest includes the agent for each property. Some
+              investors also write directly to the property address. We provide the evidence; how you use it is up to
+              you.</p>
+          </div>
+        </div>
+
+        <div class="faq__item reveal">
+          <button class="faq__trigger" onclick="this.parentElement.classList.toggle('open')">
+            Can I get a different area?
+            <span class="faq__icon"></span>
+          </button>
+          <div class="faq__answer">
+            <p>Bradford is first. Leeds, Sheffield and Hull are launching next. Reply to any digest to request your
+              area, or ask about a custom area at £129/month.</p>
+          </div>
+        </div>
+
+        <div class="faq__item reveal">
+          <button class="faq__trigger" onclick="this.parentElement.classList.toggle('open')">
+            Is this investment advice?
+            <span class="faq__icon"></span>
+          </button>
+          <div class="faq__answer">
+            <p>No. Scores indicate seller motivation signals in listing data, not property value or investment
+              suitability. Always do your own due diligence before making an offer.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA BAND ===== -->
+  <div class="cta-band">
+    <div class="container">
+      <h2 class="cta-band__title">Stop guessing. Start with the data.</h2>
+      <p class="cta-band__desc">Join investors who see the pattern before anyone else.</p>
+      <a class="btn btn--primary" href="https://buy.stripe.com/YOUR_PAYMENT_LINK">Subscribe — £79/month</a>
+    </div>
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div class="footer__left">
+        DealSignal Bradford · hello@YOURDOMAIN.co.uk<br>
+        Data: Homedata / Home.co.uk · HM Land Registry public records.
+      </div>
+      <div class="footer__right">
+        Signals are informational only. Not financial, investment, or legal advice.<br>
+        &copy; 2026 DealSignal. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Header scroll effect
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('scrolled', window.scrollY > 10);
+    }, { passive: true });
+
+    // Scroll reveal
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -30px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+
+</html>

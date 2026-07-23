@@ -1,0 +1,49 @@
+# Weekly motivated-seller digest
+# Place this file at: .github/workflows/weekly-digest.yml in your repo.
+#
+# Required repo secrets (Settings -> Secrets and variables -> Actions):
+#   HOMEDATA_API_KEY   from https://homedata.co.uk/register (free tier)
+#   RESEND_API_KEY     from https://resend.com (free tier)
+#   FROM_EMAIL         verified sender, e.g. Deal Alerts <alerts@yourdomain.co.uk>
+#
+# Optional repo variables:
+#   AREA_NAME          e.g. Bradford        (default below)
+#   MAX_PRICE          e.g. 250000
+
+name: Weekly motivated-seller digest
+
+on:
+  schedule:
+    - cron: "0 7 * * 1"   # Every Monday 07:00 UTC
+  workflow_dispatch: {}     # Manual "Run workflow" button for testing
+
+jobs:
+  digest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # Per-subscriber areas: subscribers.csv (email,area,max_price).
+      # run_weekly.py scans each unique area once, then emails each group.
+      - name: Scan all subscriber areas and send digests
+        env:
+          HOMEDATA_API_KEY: ${{ secrets.HOMEDATA_API_KEY }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          FROM_EMAIL: ${{ secrets.FROM_EMAIL }}
+          DEEP_DIVE: ${{ vars.DEEP_DIVE || 3 }}
+          MAX_CALLS: ${{ vars.MAX_CALLS || 95 }}
+        run: python run_weekly.py
+
+      - name: Archive this week's results
+        uses: actions/upload-artifact@v4
+        with:
+          name: digest-${{ github.run_number }}
+          path: motivated_sellers_*.csv
+          retention-days: 90

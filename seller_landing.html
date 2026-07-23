@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sell Your House Fast For Cash | {{ brand.name }}</title>
+    <meta name="description"
+        content="{{ brand.tagline }}. Guaranteed cash offer in 24 hours. No estate agent fees, no chain delays, complete confidentiality.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --brand-color: {{ brand.colour or '#14273d' }};
+            --brand-light: #f4f6f9;
+            --slate-900: #0f172a;
+            --slate-800: #1e293b;
+            --slate-700: #334155;
+            --slate-600: #475569;
+            --slate-200: #e2e8f0;
+            --emerald-600: #059669;
+            --emerald-700: #047857;
+            --white: #ffffff;
+            --font: 'Inter', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font);
+            color: var(--slate-900);
+            background: var(--brand-light);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Header Styling */
+        header {
+            background: var(--white);
+            border-bottom: 1px solid var(--slate-200);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            font-weight: 800;
+            font-size: 1.15rem;
+            color: var(--brand-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            letter-spacing: -0.03em;
+        }
+
+        .logo-mark {
+            width: 30px;
+            height: 30px;
+            border-radius: 4px;
+            background: var(--brand-color);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-weight: 800;
+            font-size: 1rem;
+            letter-spacing: -0.02em;
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.05;
+        }
+
+        .logo-text strong {
+            font-size: 1.1rem;
+            letter-spacing: -0.04em;
+        }
+
+        .logo-text span {
+            font-size: 0.62rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--slate-600);
+        }
+
+        .call-btn {
+            background: var(--brand-color);
+            color: var(--white);
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+
+        .call-btn:hover {
+            opacity: 0.9;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 60px 0;
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                grid-template-columns: 1fr;
+                padding: 40px 0;
+            }
+        }
+
+        .hero-text h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--brand-color);
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        .hero-text p {
+            font-size: 1.1rem;
+            color: var(--slate-700);
+            margin-bottom: 30px;
+        }
+
+        /* Benefits List */
+        .benefits {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .benefit-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .benefit-icon {
+            background: #e8f5ec;
+            color: var(--emerald-600);
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .benefit-title {
+            font-weight: 700;
+            color: var(--slate-900);
+        }
+
+        .benefit-desc {
+            font-size: 0.9rem;
+            color: var(--slate-600);
+        }
+
+        /* Lead Form Card */
+        .form-card {
+            background: var(--white);
+            border: 1px solid var(--slate-200);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+        }
+
+        .form-card h2 {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--brand-color);
+            margin-bottom: 8px;
+        }
+
+        .form-card p {
+            font-size: 0.85rem;
+            color: var(--slate-600);
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--slate-700);
+            margin-bottom: 4px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--slate-200);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            outline: none;
+            box-sizing: border-box;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: var(--brand-color);
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: var(--emerald-600);
+            color: var(--white);
+            border: none;
+            padding: 14px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .submit-btn:hover {
+            background-color: var(--emerald-700);
+        }
+
+        /* How It Works Section */
+        .how-it-works {
+            background: var(--white);
+            padding: 70px 0;
+            border-top: 1px solid var(--slate-200);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--brand-color);
+            margin-bottom: 40px;
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .steps-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .step-card {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .step-num {
+            width: 50px;
+            height: 50px;
+            background: var(--brand-light);
+            color: var(--brand-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: 800;
+            margin: 0 auto 20px;
+        }
+
+        .step-title {
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--slate-900);
+        }
+
+        .step-desc {
+            font-size: 0.9rem;
+            color: var(--slate-600);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--slate-900);
+            color: #94a3b8;
+            padding: 40px 0;
+            font-size: 0.85rem;
+        }
+
+        .footer-inner {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .footer-inner {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="container header-inner">
+            <a class="logo" href="/sell">
+                <span class="logo-mark" aria-hidden="true">D</span>
+                <span class="logo-text">
+                    <strong>{{ brand.name }}</strong>
+                    <span>Cash home buyers</span>
+                </span>
+            </a>
+            <a class="call-btn" href="tel:{{ brand.phone }}">Call: {{ brand.phone }}</a>
+        </div>
+    </header>
+
+    <!-- HERO -->
+    <div class="container">
+        <section class="hero">
+            <div class="hero-text">
+                <h1>Sell Your Home Fast for Cash, Without the Agent Hassle.</h1>
+                <p>No fees. No structural checks. No chain collapses. We offer a direct cash purchase on your
+                    property—allowing you to complete in as little as 7 days.</p>
+
+                <div class="benefits">
+                    <div class="benefit-item">
+                        <div class="benefit-icon">✓</div>
+                        <div>
+                            <div class="benefit-title">£0 Legal &amp; Agent Fees</div>
+                            <div class="benefit-desc">We pay all your UK legal costs. What we offer is exactly what you
+                                receive.</div>
+                        </div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">✓</div>
+                        <div>
+                            <div class="benefit-title">No Chain Collapse Risks</div>
+                            <div class="benefit-desc">We buy directly from you with our own cash reserves. No mortgage
+                                delays.</div>
+                        </div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">✓</div>
+                        <div>
+                            <div class="benefit-title">Complete Confidentiality</div>
+                            <div class="benefit-desc">Skip public viewings and home opens. Sell quietly and privately.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- LEAD FORM -->
+            <div class="form-card">
+                <h2>Get Your Cash Offer</h2>
+                <p>Takes 30 seconds. Free, confidential, and completely no obligation.</p>
+
+                {% with messages = get_flashed_messages(category_filter=["inquiry_success"]) %}
+                {% if messages %}
+                <div
+                    style="background:#e8f5ec;border:1px solid #bfe3c9;color:#1e5c3a;padding:12px;border-radius:8px;font-size:0.9rem;margin-bottom:15px;font-weight:600;">
+                    ✓ Details Received! We'll review your property and call you within 24 hours.
+                </div>
+                {% endif %}
+                {% endwith %}
+
+                <form method="post" action="/sell-inquiry">
+                    <div class="form-group">
+                        <label for="postcode">Property Postcode</label>
+                        <input type="text" id="postcode" name="postcode" placeholder="e.g. BD4 6ES" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Your Name</label>
+                        <input type="text" id="name" name="name" placeholder="John Smith" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" placeholder="e.g. 07123 456789" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" placeholder="john@example.co.uk" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="reason">Why are you looking to sell?</label>
+                        <select id="reason" name="reason">
+                            <option value="Chain Collapsed">Chain Collapsed / Failed Sale</option>
+                            <option value="Relocating">Relocating / Moving Job</option>
+                            <option value="Inherited property">Inherited Property / Probate</option>
+                            <option value="Financial distress">Need Quick Funds / Financial</option>
+                            <option value="General Fast Sale">General Fast &amp; Quiet Sale</option>
+                            <option value="Other">Other Reason</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="submit-btn">Get My Cash Offer Proposal →</button>
+                </form>
+            </div>
+        </section>
+    </div>
+
+    <!-- HOW IT WORKS -->
+    <section class="how-it-works">
+        <div class="container">
+            <h2 class="section-title">Our Simple 3-Step Process</h2>
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-num">1</div>
+                    <h3 class="step-title">Submit Details</h3>
+                    <p class="step-desc">Fill out the form above or call us. We will prepare an initial appraisal on
+                        your postcode layout.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">2</div>
+                    <h3 class="step-title">Get Cash Offer</h3>
+                    <p class="step-desc">We inspect the details and coordinate a direct cash price offer inside 24
+                        hours.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">3</div>
+                    <h3 class="step-title">Complete on Your Date</h3>
+                    <p class="step-desc">If you agree, you select the completion date. The money drops directly into
+                        your solicitor's bank account.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container footer-inner">
+            <div>
+                <strong>{{ brand.name }}</strong> · Direct Broker Services<br>
+                Email: {{ brand.email }} · Phone: {{ brand.phone }}
+            </div>
+            <div style="text-align: right;">
+                We charge no valuation or viewing fees. Subject to contract.<br>
+                &copy; 2026 {{ brand.name }}. All rights reserved.<br>
+                <a href="/" style="color:#94a3b8;text-decoration:underline;">Home</a>
+                ·
+                <a href="/login" style="color:#94a3b8;text-decoration:underline;">Staff login</a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+</html>
