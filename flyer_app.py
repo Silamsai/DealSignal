@@ -796,8 +796,6 @@ PAGE = """
 </div>
 <h1>Flyer workspace</h1>
 <p style="color:#5a6472;margin:-8px 0 18px;font-size:.95rem;line-height:1.5;">Three steps: scan an area → set your brand → pick properties and send.</p>
-<div class="banner">{% if test_mode %}<b>Safe test mode</b> — flyers are only proofed as PDFs. Nothing is printed, posted, or charged. When you are ready to post for real, set <code>STANNP_TEST_MODE=0</code> in your <code>.env</code> file.{% else %}<b>Live posting mode</b> — selected flyers will be printed, posted, and charged to your Stannp account.{% endif %}</div>
-{% with msgs = get_flashed_messages(with_categories=true) %}{% for cat,m in msgs %}<div class="flash {{cat}}">{{m}}</div>{% endfor %}{% endwith %}
 
 <h2>1. Scan an area</h2>
 <form class="brand" method="post" action="{{ url_for('scan') }}" style="grid-template-columns:2fr 1fr 1fr">
@@ -1403,6 +1401,8 @@ ACCOUNT_PAGE = """<!DOCTYPE html>
 
 
 def _render_dashboard(preview_html=None, preview_back=None):
+    # Keep workspace clean — discard any queued flash banners.
+    get_flashed_messages()
     return render_template_string(
         PAGE,
         brand=load_brand(),
@@ -1476,7 +1476,6 @@ def login():
         if ok:
             _clear_login_failures(ip)
             _start_session(payload)
-            flash(f"Welcome back, {payload['display_name']}!", "message")
             return redirect(next_url)
 
         _record_login_failure(ip)
