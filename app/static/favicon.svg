@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" fill="none">
+  <defs>
+    <linearGradient id="favicon-gradient" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#14273d" />
+      <stop offset="100%" stop-color="#1e5c3a" />
+    </linearGradient>
+  </defs>
+  <!-- Background circle/square -->
+  <rect width="32" height="32" rx="7" fill="url(#favicon-gradient)" />
+  
+  <!-- Stylized modern D cutout -->
+  <path d="M9 8h6.5A7.5 7.5 0 0 1 23 15.5v1A7.5 7.5 0 0 1 15.5 24H9V8zm3 2.5v11h3.5A5 5 0 0 0 20.5 16.5v-1A5 5 0 0 0 15.5 10.5H12z" fill="#ffffff" />
+  
+  <!-- Inset dot representing target / signal source -->
+  <circle cx="16.5" cy="16" r="2" fill="#10b981" />
+</svg>
