@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>DealSignal — Motivated seller intelligence</title>
+    <meta name="description"
+        content="DealSignal finds motivated UK sellers for investors, and gives homeowners a simple cash-offer path. Weekly digests, ranked signals, flyer tools.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --ink: #14273d;
+            --ink-soft: #24384f;
+            --muted: #5a6472;
+            --line: #d9e1ea;
+            --paper: #f3f6f9;
+            --white: #fff;
+            --green: #1e5c3a;
+            --green-soft: #e8f2ec;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        html {
+            scroll-behavior: smooth
+        }
+
+        body {
+            font-family: Manrope, Segoe UI, sans-serif;
+            background: var(--paper);
+            color: var(--ink);
+            line-height: 1.55;
+            overflow-x: hidden
+        }
+
+        a {
+            color: inherit
+        }
+
+        .site-bg {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+            background:
+                radial-gradient(ellipse 80% 50% at 10% -10%, rgba(30, 92, 58, .12), transparent 55%),
+                radial-gradient(ellipse 70% 45% at 95% 5%, rgba(20, 39, 61, .10), transparent 50%),
+                linear-gradient(180deg, #eef3f7 0%, #f3f6f9 40%, #e8eef4 100%);
+        }
+
+        .site-bg::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            opacity: .35;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cpath d='M60 0H0V60' fill='none' stroke='%2314273d' stroke-opacity='0.04'/%3E%3C/svg%3E");
+        }
+
+        .wrap {
+            max-width: 1080px;
+            margin: 0 auto;
+            padding: 0 24px
+        }
+
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 40;
+            backdrop-filter: blur(12px);
+            background: rgba(243, 246, 249, .86);
+            border-bottom: 1px solid transparent;
+            transition: border-color .2s, box-shadow .2s;
+        }
+
+        .header.is-scrolled {
+            border-color: var(--line);
+            box-shadow: 0 8px 24px rgba(20, 39, 61, .04)
+        }
+
+        .header__inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 0;
+            flex-wrap: wrap
+        }
+
+        .logo {
+            font-weight: 800;
+            color: var(--ink);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            letter-spacing: -0.03em
+        }
+
+        .brand-mark {
+            width: 36px;
+            height: 36px;
+            border-radius: 9px;
+            background: var(--ink);
+            color: #fff;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-family: Manrope, sans-serif;
+            font-weight: 800;
+            font-size: 1.2rem;
+            letter-spacing: -0.05em;
+            line-height: 1;
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .08);
+        }
+
+        .logo>strong {
+            font-size: 1.22rem;
+            letter-spacing: -0.04em;
+            font-weight: 800
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 18px;
+            align-items: center;
+            margin-left: auto;
+            margin-right: 18px
+        }
+
+        .nav-links a {
+            font-size: .88rem;
+            font-weight: 600;
+            color: var(--muted);
+            text-decoration: none
+        }
+
+        .nav-links a:hover {
+            color: var(--ink)
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            align-items: center
+        }
+
+        .btn {
+            display: inline-block;
+            text-decoration: none;
+            border-radius: 8px;
+            padding: 11px 18px;
+            font-weight: 700;
+            font-size: .9rem;
+            border: 0;
+            cursor: pointer;
+            transition: transform .15s ease, background .15s
+        }
+
+        .btn:hover {
+            transform: translateY(-1px)
+        }
+
+        .btn-line {
+            background: var(--white);
+            color: var(--ink);
+            border: 1px solid var(--line)
+        }
+
+        .btn-primary {
+            background: var(--ink);
+            color: #fff
+        }
+
+        .btn-green {
+            background: var(--green);
+            color: #fff
+        }
+
+        .flash {
+            background: var(--green-soft);
+            border: 1px solid #bfe3c9;
+            border-radius: 8px;
+            padding: 10px 16px;
+            margin: 12px 0 0;
+            font-size: .9rem
+        }
+
+        /* Hero */
+        .hero {
+            padding: 56px 0 72px;
+            min-height: calc(100vh - 72px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center
+        }
+
+        .hero__brand {
+            font-family: "Source Serif 4", Georgia, serif;
+            font-size: clamp(2.6rem, 6vw, 4.2rem);
+            font-weight: 600;
+            letter-spacing: -0.03em;
+            line-height: 1.05;
+            color: var(--ink);
+            margin: 0 0 18px;
+            max-width: 14ch;
+            animation: rise .7s ease both
+        }
+
+        .hero__line {
+            font-size: clamp(1.05rem, 2vw, 1.2rem);
+            color: var(--muted);
+            max-width: 38ch;
+            margin: 0 0 28px;
+            line-height: 1.65;
+            animation: rise .7s .08s ease both
+        }
+
+        .hero__cta {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 48px;
+            animation: rise .7s .16s ease both
+        }
+
+        .hero__visual {
+            border-radius: 18px;
+            overflow: hidden;
+            min-height: 220px;
+            position: relative;
+            background:
+                linear-gradient(135deg, rgba(20, 39, 61, .92), rgba(30, 92, 58, .75)),
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='320' viewBox='0 0 800 320'%3E%3Cpath d='M0 220 L80 160 L160 200 L240 120 L320 180 L400 90 L480 150 L560 70 L640 140 L720 100 L800 160 L800 320 L0 320Z' fill='%23ffffff' fill-opacity='0.08'/%3E%3Cpath d='M0 250 L100 200 L200 240 L300 170 L400 230 L500 150 L600 210 L700 160 L800 200 L800 320 L0 320Z' fill='%23ffffff' fill-opacity='0.05'/%3E%3C/svg%3E") center/cover;
+            animation: rise .7s .22s ease both;
+        }
+
+        .hero__visual-inner {
+            padding: 28px 28px 24px;
+            color: #fff
+        }
+
+        .hero__visual-inner p {
+            font-size: .82rem;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            opacity: .7;
+            margin-bottom: 10px;
+            font-weight: 600
+        }
+
+        .hero__visual-inner strong {
+            display: block;
+            font-size: clamp(1.3rem, 2.5vw, 1.7rem);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            max-width: 28ch;
+            line-height: 1.25
+        }
+
+        .hero__chips {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 18px
+        }
+
+        .hero__chips span {
+            font-size: .8rem;
+            font-weight: 600;
+            background: rgba(255, 255, 255, .12);
+            border: 1px solid rgba(255, 255, 255, .18);
+            padding: 7px 12px;
+            border-radius: 6px
+        }
+
+        /* Sections */
+        section {
+            padding: 72px 0
+        }
+
+        .section-label {
+            font-size: .75rem;
+            font-weight: 700;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            color: var(--green);
+            margin-bottom: 10px
+        }
+
+        .section-title {
+            font-family: "Source Serif 4", Georgia, serif;
+            font-size: clamp(1.7rem, 3.2vw, 2.35rem);
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            line-height: 1.15;
+            margin: 0 0 12px;
+            max-width: 18ch
+        }
+
+        .section-copy {
+            color: var(--muted);
+            font-size: 1.02rem;
+            max-width: 48ch;
+            margin: 0 0 36px;
+            line-height: 1.65
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(18px);
+            transition: opacity .55s ease, transform .55s ease
+        }
+
+        .reveal.is-in {
+            opacity: 1;
+            transform: none
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px
+        }
+
+        .step {
+            background: var(--white);
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            padding: 24px 20px;
+            transition: border-color .15s, transform .15s;
+        }
+
+        .step:hover {
+            border-color: #b8c4d0;
+            transform: translateY(-2px)
+        }
+
+        .step__num {
+            font-size: .78rem;
+            font-weight: 800;
+            color: var(--green);
+            letter-spacing: .08em;
+            margin-bottom: 12px
+        }
+
+        .step h3 {
+            font-size: 1.1rem;
+            margin: 0 0 8px;
+            letter-spacing: -0.02em
+        }
+
+        .step p {
+            font-size: .92rem;
+            color: var(--muted);
+            line-height: 1.55;
+            margin: 0
+        }
+
+        .why {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px
+        }
+
+        .why-card {
+            background: var(--white);
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            padding: 24px 20px;
+        }
+
+        .why-card h3 {
+            font-size: 1.05rem;
+            margin: 0 0 8px;
+            letter-spacing: -0.02em
+        }
+
+        .why-card p {
+            font-size: .92rem;
+            color: var(--muted);
+            line-height: 1.55;
+            margin: 0
+        }
+
+        .paths {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px
+        }
+
+        .path {
+            background: var(--white);
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            padding: 28px 24px;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            transition: border-color .15s, transform .15s;
+        }
+
+        .path:hover {
+            border-color: var(--ink);
+            transform: translateY(-2px)
+        }
+
+        .path h2 {
+            font-size: 1.25rem;
+            margin: 0 0 8px;
+            letter-spacing: -0.02em
+        }
+
+        .path p {
+            font-size: .92rem;
+            color: var(--muted);
+            margin: 0 0 18px;
+            line-height: 1.55
+        }
+
+        .path .go {
+            font-size: .9rem;
+            font-weight: 700;
+            color: var(--ink)
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px
+        }
+
+        .feature {
+            background: var(--white);
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            padding: 24px 20px
+        }
+
+        .feature h3 {
+            font-size: 1.02rem;
+            margin: 0 0 8px
+        }
+
+        .feature p {
+            font-size: .9rem;
+            color: var(--muted);
+            margin: 0;
+            line-height: 1.55
+        }
+
+        .band {
+            margin: 20px 0 0;
+            border-radius: 18px;
+            padding: 48px 40px;
+            background: linear-gradient(135deg, var(--ink) 0%, #1c3a2a 100%);
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+
+        .band h2 {
+            font-family: "Source Serif 4", Georgia, serif;
+            font-size: clamp(1.5rem, 2.5vw, 2rem);
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            margin: 0 0 8px;
+            max-width: 16ch
+        }
+
+        .band p {
+            margin: 0;
+            opacity: .85;
+            max-width: 36ch;
+            font-size: .95rem
+        }
+
+        .band .actions .btn-line {
+            border-color: rgba(255, 255, 255, .35);
+            background: transparent;
+            color: #fff
+        }
+
+        .band .actions .btn-primary {
+            background: #fff;
+            color: var(--ink)
+        }
+
+        .site-footer {
+            padding: 40px 0 56px;
+            border-top: 1px solid var(--line);
+            margin-top: 20px
+        }
+
+        .site-footer__inner {
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+            align-items: center
+        }
+
+        .site-footer p {
+            font-size: .82rem;
+            color: var(--muted);
+            margin: 0
+        }
+
+        .site-footer a {
+            color: var(--ink);
+            font-weight: 600;
+            text-decoration: none;
+            font-size: .85rem;
+            margin-left: 14px
+        }
+
+        @keyframes rise {
+            from {
+                opacity: 0;
+                transform: translateY(16px)
+            }
+
+            to {
+                opacity: 1;
+                transform: none
+            }
+        }
+
+        @media(max-width:800px) {
+            .nav-links {
+                display: none
+            }
+
+            .steps,
+            .features,
+            .paths,
+            .why {
+                grid-template-columns: 1fr
+            }
+
+            .hero {
+                min-height: auto;
+                padding: 40px 0 56px
+            }
+
+            .band {
+                padding: 32px 24px
+            }
+
+            section {
+                padding: 56px 0
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="site-bg" aria-hidden="true"></div>
+    <header class="header" id="siteHeader">
+        <div class="wrap header__inner">
+            <a class="logo" href="/">
+                <span class="brand-mark" aria-hidden="true">D</span>
+                <strong>DealSignal</strong>
+            </a>
+            <nav class="nav-links" aria-label="Page">
+                <a href="#why">Why it's used</a>
+                <a href="#how">How it works</a>
+                <a href="#audience">Who it's for</a>
+            </nav>
+            <div class="actions">
+                <a class="btn btn-line" href="{{ url_for('main.login') }}">Login</a>
+                <a class="btn btn-primary" href="{{ url_for('main.signup') }}">Sign up</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="wrap">
+        {% with msgs = get_flashed_messages(with_categories=true) %}
+        {% for cat,m in msgs %}<div class="flash">{{ m }}</div>{% endfor %}
+        {% endwith %}
+
+        <section class="hero">
+            <h1 class="hero__brand">DealSignal</h1>
+            <p class="hero__line">Find motivated UK sellers faster — or request a simple cash offer if you're selling
+                your home.</p>
+            <div class="hero__cta">
+                <a class="btn btn-primary" href="{{ url_for('main.signup') }}">Create free account</a>
+                <a class="btn btn-line" href="{{ url_for('main.login') }}">Login</a>
+            </div>
+            <div class="hero__visual" aria-hidden="true">
+                <div class="hero__visual-inner">
+                    <p>What you get</p>
+                    <strong>A clear shortlist of sellers who are more likely to negotiate — not a long raw property
+                        search.</strong>
+                    <div class="hero__chips">
+                        <span>1 · Sign up</span>
+                        <span>2 · Login</span>
+                        <span>3 · Use workspace</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="why">
+            <h2 class="section-title reveal">Why it's used</h2>
+            <p class="section-copy reveal">Most property sites show every listing. DealSignal focuses on sellers who
+                look ready to negotiate.</p>
+            <div class="why">
+                <div class="why-card reveal">
+                    <h3>Less noise</h3>
+                    <p>Get a ranked shortlist instead of scrolling hundreds of adverts.</p>
+                </div>
+                <div class="why-card reveal">
+                    <h3>Clear next step</h3>
+                    <p>Sign up, login, then use the workspace to scan, brand, and preview flyers.</p>
+                </div>
+                <div class="why-card reveal">
+                    <h3>Two audiences</h3>
+                    <p>Investors and homeowners each get a simple path that fits what they need.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="how">
+            <h2 class="section-title reveal">How it works</h2>
+            <p class="section-copy reveal">Three easy steps — follow this path and you're in.</p>
+            <div class="steps">
+                <div class="step reveal">
+                    <div class="step__num">01</div>
+                    <h3>Sign up</h3>
+                    <p>Enter your name, email, and password. This creates your account for demos and feedback.</p>
+                </div>
+                <div class="step reveal">
+                    <div class="step__num">02</div>
+                    <h3>Login</h3>
+                    <p>Use that same email and password.</p>
+                </div>
+                <div class="step reveal">
+                    <div class="step__num">03</div>
+                    <h3>Open workspace</h3>
+                    <p>Scan an area, set your brand, preview a flyer poster, then send when keys are set up.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="audience">
+            <h2 class="section-title reveal">Who it's for</h2>
+            <p class="section-copy reveal">Public pages below need no login. Use Sign up / Login only when you want the
+                workspace tools.</p>
+            <div class="paths">
+                <a class="path reveal" href="/landing">
+                    <h2>I'm an investor</h2>
+                    <p>Learn how weekly digests and motivation scores help you spot deals earlier.</p>
+                    <span class="go">Open investor page →</span>
+                </a>
+                <a class="path reveal" href="/sell">
+                    <h2>I'm selling my home</h2>
+                    <p>Ask for a cash offer — no agent fees and no chain. We'll contact you.</p>
+                    <span class="go">Request cash offer →</span>
+                </a>
+            </div>
+        </section>
+
+        <section id="included">
+            <h2 class="section-title reveal">What you get</h2>
+            <p class="section-copy reveal">The product in plain words.</p>
+            <div class="features">
+                <div class="feature reveal">
+                    <h3>Finds motivated sellers</h3>
+                    <p>Looks for price cuts, long time on market, and similar signals — then ranks the strongest ones.
+                    </p>
+                </div>
+                <div class="feature reveal">
+                    <h3>Flyer poster tools</h3>
+                    <p>After login you can preview the postcard design before anything is posted.</p>
+                </div>
+                <div class="feature reveal">
+                    <h3>Homeowner enquiries</h3>
+                    <p>Sellers can leave details on the sell page. Those leads show in the workspace for follow-up.</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="band reveal">
+                <div>
+                    <h2>Ready to try it?</h2>
+                    <p>Create an account, then login with those details to open the workspace.</p>
+                </div>
+                <div class="actions">
+                    <a class="btn btn-line" href="{{ url_for('main.login') }}">Login</a>
+                    <a class="btn btn-primary" href="{{ url_for('main.signup') }}">Sign up</a>
+                </div>
+            </div>
+        </section>
+
+        <footer class="site-footer">
+            <div class="site-footer__inner">
+                <p>© DealSignal · Motivated seller intelligence</p>
+                <div>
+                    <a href="/landing">Investors</a>
+                    <a href="/sell">Sellers</a>
+                    <a href="{{ url_for('main.login') }}">Login</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        (function () {
+            var header = document.getElementById('siteHeader');
+            function onScroll() { header.classList.toggle('is-scrolled', window.scrollY > 8); }
+            onScroll();
+            window.addEventListener('scroll', onScroll, { passive: true });
+
+            var nodes = document.querySelectorAll('.reveal');
+            if ('IntersectionObserver' in window) {
+                var io = new IntersectionObserver(function (entries) {
+                    entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); } });
+                }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+                nodes.forEach(function (n) { io.observe(n); });
+            } else {
+                nodes.forEach(function (n) { n.classList.add('is-in'); });
+            }
+        })();
+    </script>
+</body>
+
+</html>

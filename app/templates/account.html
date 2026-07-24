@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Account — DealSignal</title>
+    <style>
+        body {
+            font-family: -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+            background: #f6f8fa;
+            color: #1c2128;
+            margin: 0
+        }
+
+        .wrap {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 20px 20px 80px
+        }
+
+        .app-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            background: #fff;
+            border: 1px solid #e2e8ee;
+            border-radius: 12px;
+            padding: 14px 18px;
+            margin-bottom: 20px
+        }
+
+        .app-bar__brand {
+            font-weight: 800;
+            color: #14273d;
+            font-size: 1.05rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            letter-spacing: -0.03em
+        }
+
+        .brand-mark {
+            width: 28px;
+            height: 28px;
+            border-radius: 4px;
+            background: #14273d;
+            color: #fff;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-weight: 800;
+            font-size: 0.95rem;
+            letter-spacing: -0.02em
+        }
+
+        .app-bar__brand-text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.05
+        }
+
+        .app-bar__brand-text strong {
+            font-size: 1.02rem;
+            letter-spacing: -0.04em
+        }
+
+        .app-bar__brand-text span {
+            font-size: .58rem;
+            font-weight: 600;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            color: #5a6472
+        }
+
+        .app-bar__nav {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap
+        }
+
+        .app-bar__nav a.nav {
+            color: #5a6472;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: .88rem;
+            padding: 8px 10px;
+            border-radius: 6px
+        }
+
+        .app-bar__nav a.nav:hover,
+        .app-bar__nav a.nav.active {
+            color: #14273d;
+            background: #f4f6f8
+        }
+
+        .app-bar__user {
+            font-size: .82rem;
+            color: #5a6472;
+            margin-right: 6px
+        }
+
+        .btn {
+            background: #14273d;
+            color: #fff;
+            border: 0;
+            border-radius: 8px;
+            padding: 11px 22px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: .95rem;
+            text-decoration: none;
+            display: inline-block
+        }
+
+        .btn.logout {
+            background: #dc2626;
+            padding: 9px 16px;
+            font-size: .85rem
+        }
+
+        .card {
+            background: #fff;
+            border: 1px solid #e2e8ee;
+            border-radius: 12px;
+            padding: 22px;
+            margin-bottom: 16px
+        }
+
+        h1 {
+            color: #14273d;
+            font-size: 1.4rem;
+            margin: 0 0 8px
+        }
+
+        h2 {
+            color: #14273d;
+            font-size: 1.05rem;
+            margin: 0 0 12px
+        }
+
+        .muted {
+            color: #5a6472;
+            font-size: .9rem;
+            margin: 0 0 16px;
+            line-height: 1.55
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid #eef2f6;
+            font-size: .92rem
+        }
+
+        .row:last-child {
+            border-bottom: 0
+        }
+
+        label {
+            display: block;
+            font-size: .8rem;
+            font-weight: 600;
+            margin-bottom: 4px
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #cdd6dd;
+            border-radius: 6px;
+            font: inherit;
+            box-sizing: border-box;
+            margin-bottom: 12px
+        }
+
+        .flash {
+            background: #e8f5ec;
+            border: 1px solid #bfe3c9;
+            border-radius: 8px;
+            padding: 10px 16px;
+            margin-bottom: 12px;
+            font-size: .9rem
+        }
+
+        .flash.error {
+            background: #fdeaea;
+            border-color: #eec3c3
+        }
+
+        .links a {
+            display: inline-block;
+            margin: 6px 12px 6px 0;
+            color: #1e5c3a;
+            font-weight: 600;
+            text-decoration: none;
+            font-size: .9rem
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <div class="app-bar">
+            <a class="app-bar__brand" href="{{ url_for('main.app_dashboard') }}">
+                <span class="brand-mark" aria-hidden="true">D</span>
+                <span class="app-bar__brand-text"><strong>DealSignal</strong><span>Workspace</span></span>
+            </a>
+            <div class="app-bar__nav">
+                <a class="nav" href="{{ url_for('main.app_dashboard') }}">Workspace</a>
+                <a class="nav active" href="{{ url_for('main.account') }}">Account</a>
+                <span class="app-bar__user">{{ display_name }}</span>
+                <a class="btn logout" href="{{ url_for('main.logout') }}">Logout</a>
+            </div>
+        </div>
+        {% with msgs = get_flashed_messages(with_categories=true) %}
+        {% for cat,m in msgs %}<div class="flash {{ cat }}">{{ m }}</div>{% endfor %}
+        {% endwith %}
+        <h1>Account settings</h1>
+        <p class="muted">Demo accounts for client feedback — no email OTP in this build.</p>
+        <div class="card">
+            <h2>Profile</h2>
+            <div class="row"><span>Name</span><strong>{{ display_name }}</strong></div>
+            {% if email %}<div class="row"><span>Email</span><strong>{{ email }}</strong></div>{% endif %}
+            <div class="row"><span>Login</span><strong>{{ username }}</strong></div>
+            <div class="row"><span>Role</span><strong>{% if role == 'admin' %}Administrator{% else %}Member{% endif
+                    %}</strong></div>
+            <div class="row"><span>Session length</span><strong>{{ session_hours }} hour(s)</strong></div>
+        </div>
+        <div class="card">
+            <h2>Change password</h2>
+            <p class="muted">{% if role == 'admin' %}Saves to <code>data/admin_auth.json</code> for this install.{% else
+                %}Updates your demo account password in <code>data/users.json</code>.{% endif %}</p>
+            <form method="post" action="{{ url_for('main.account') }}">
+                <label for="current_password">Current password</label>
+                <input type="password" id="current_password" name="current_password" required>
+                <label for="new_password">New password</label>
+                <input type="password" id="new_password" name="new_password" minlength="8" required>
+                <label for="confirm_password">Confirm new password</label>
+                <input type="password" id="confirm_password" name="confirm_password" minlength="8" required>
+                <button class="btn" type="submit">Update password</button>
+            </form>
+        </div>
+        <div class="card">
+            <h2>Shortcuts</h2>
+            <div class="links">
+                <a href="{{ url_for('main.app_dashboard') }}#brand">Edit brand on dashboard</a>
+                <a href="/landing" target="_blank">Investor landing</a>
+                <a href="/sell" target="_blank">Seller landing</a>
+                <a href="{{ url_for('main.logout') }}">Logout</a>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -9,93 +9,155 @@ This repository contains the motivated-seller digest system (Level 1 email autom
 ```text
 weekly-digest/
 │
+├── app/                             <-- Flask application package
+│   ├── __init__.py                  <-- App factory (create_app)
+│   ├── config.py                    <-- All env-var configuration
+│   ├── auth.py                      <-- Authentication & brute-force protection
+│   ├── models.py                    <-- File-based data access (thread-safe)
+│   ├── routes.py                    <-- All route handlers (Blueprint)
+│   ├── services.py                  <-- Homedata & Stannp API integrations
+│   ├── templates/                   <-- Jinja2 HTML templates
+│   │   ├── home.html                <-- Public landing page
+│   │   ├── login.html               <-- Login form
+│   │   ├── signup.html              <-- Signup form
+│   │   ├── dashboard.html           <-- Flyer workspace (auth required)
+│   │   └── account.html             <-- Account settings (auth required)
+│   └── static/                      <-- Static assets
+│
 ├── .github/
 │   └── workflows/
 │       └── weekly-digest.yml        <-- Scheduled cron workflow for GHA
 │
-├── data/                            <-- Persistent application data files (Git ignored)
-│   ├── brand.json                   <-- Dashboard postcard branding configuration
-│   ├── subscribers.csv              <-- Master email list of subscribing investors
-│   ├── motivated_sellers.csv        <-- Output cache of identified motivated sellers
+├── data/                            <-- Persistent data files (gitignored)
+│   ├── brand.json                   <-- Postcard branding configuration
+│   ├── subscribers.csv              <-- Master email list
+│   ├── motivated_sellers.csv        <-- Identified motivated sellers cache
+│   ├── seller_leads.csv             <-- Homeowner inquiry leads
 │   └── sent_log.csv                 <-- Postcard delivery audit trail
 │
 ├── docs/                            <-- Technical instructions & reports
-│   ├── DEPLOYMENT.md                <-- Production setup & secret environment guides
-│   ├── HOW_IT_WORKS.md              <-- Point scoring engine & API pipeline guides
+│   ├── DEPLOYMENT.md                <-- Production setup guides
+│   ├── HOW_IT_WORKS.md              <-- Scoring engine & API pipeline
 │   └── UK_Lead_Gen_Niche_Research_Report.md
 │
 ├── deal_alerts_landing.html         <-- Subscription sales page for investors
-├── flyer_app.py                     <-- Web dashboard app (Flask)
+├── seller_landing.html              <-- Homeowner cash-offer landing page
 ├── motivated_seller_finder.py       <-- Real-time property scanner & scorer
-├── run_weekly.py                    <-- Weekly batch email automation coordinator
-├── send_digest.py                   <-- Manual email execution tool (legacy)
-├── requirements.txt                 <-- Python package dependencies index
-├── .gitignore                       <-- Version control exclusion configuration
+├── run_weekly.py                    <-- Weekly batch email automation
+├── send_digest.py                   <-- Manual email tool (legacy)
+├── run.py                           <-- App entry point (dev & production)
+├── flyer.py                         <-- Backward-compatible wrapper
+├── Procfile                         <-- Production process config
+├── requirements.txt                 <-- Python dependencies
+├── .env.template                    <-- Environment variable template
+├── .gitignore                       <-- Version control exclusions
 └── README_DEVELOPER.md              <-- This file
 ```
 
 ## Prerequisites
 
-- Python 3.11+ (scripts use stdlib only, except flyer_app: `pip install flask requests`)
-- Accounts: GitHub, Homedata (free), Resend (free), Stripe, Stannp (L2 only), Netlify or Cloudflare Pages
+- Python 3.11+
+- `pip install -r requirements.txt`
+- Accounts: GitHub, Homedata (free), Resend (free), Stripe, Stannp (L2 only)
 
-## Environment variables
+## Quick Start (Development)
+
+```bash
+# 1. Clone and enter the project
+git clone <repo-url> && cd weekly-digest
+
+# 2. Create virtual environment
+python -m venv venv
+venv\Scripts\activate        # Windows
+# source venv/bin/activate   # macOS/Linux
+
+# 3. Install dependencies
+pip install -r requirements.txt
+
+# 4. Configure environment
+copy .env.template .env      # Windows
+# cp .env.template .env      # macOS/Linux
+# Edit .env with your real API keys
+
+# 5. Run the app
+python run.py                # or: python flyer.py (backward compat)
+```
+
+Open http://localhost:5000/
+
+## Environment Variables
 
 | Var | Used by | Notes |
 |---|---|---|
-| `HOMEDATA_API_KEY` | finder, flyer_app | homedata.co.uk/register — free 100 calls/mo |
+| `HOMEDATA_API_KEY` | finder, app | homedata.co.uk/register — free 100 calls/mo |
 | `RESEND_API_KEY` | send_digest | resend.com — verify sending domain |
 | `FROM_EMAIL` | send_digest | e.g. `Deal Alerts <alerts@domain.co.uk>` |
-| `AREA_NAME` / `MAX_PRICE` | workflow | Optional; defaults Bradford / 250000 |
-| `STANNP_API_KEY` | flyer_app | stannp.com, pay-per-item |
-| `STANNP_TEST_MODE` | flyer_app | **Defaults ON (proofs only).** Set `0` to post for real |
-| `FLASK_SECRET` | flyer_app | Any random string in production |
-| `DEALS_CSV` | flyer_app | Path to finder output (default `motivated_sellers.csv`) |
+| `STANNP_API_KEY` | app | stannp.com, pay-per-item |
+| `STANNP_TEST_MODE` | app | **Defaults ON (proofs only).** Set `0` to post for real |
+| `FLASK_SECRET` | app | **Generate a strong random string for production** |
+| `ADMIN_USERNAME` | app | Default: `admin` |
+| `ADMIN_PASSWORD` | app | **Change before deploying** |
+| `SESSION_HOURS` | app | Default: 8 |
+| `LOGIN_MAX_ATTEMPTS` | app | Default: 5 |
+| `LOGIN_LOCKOUT_SECONDS` | app | Default: 900 (15 min) |
 
 ## Deployment
 
-### A. Static sites (tree site + landing page) — Netlify, ~5 min
-1. Rename the HTML file to `index.html`.
-2. Replace placeholders: phone number + Formspree ID (tree site); Stripe payment link + contact email (landing page).
-3. Drag-and-drop at app.netlify.com/drop, or connect the repo (publish dir = `site/`).
-4. Add custom domain in Site settings; Netlify handles SSL.
+### Production (AWS EC2 — Recommended)
 
-### B-L1. Weekly digest — GitHub Actions, ~15 min
-1. Push repo (structure above). Workflow file must be at `.github/workflows/weekly-digest.yml`.
-2. Add secrets `HOMEDATA_API_KEY`, `RESEND_API_KEY`, `FROM_EMAIL` (Settings → Secrets → Actions); optional vars `AREA_NAME`, `MAX_PRICE`.
-3. Put your own email in `subscribers.txt`, push.
-4. Actions tab → Run workflow (manual test). Fix any live-API field mismatches, then it self-runs Mondays 07:00 UTC.
-5. New paying subscriber (Stripe emails you) → append email to `subscribers.txt`, push.
+```bash
+# On the server:
+git clone <repo-url> && cd weekly-digest
+python -m venv venv && source venv/bin/activate
+pip install -r requirements.txt
 
-Full walkthrough with troubleshooting: see `DEPLOYMENT.md`.
+# Configure production .env (generate a real FLASK_SECRET!)
+python -c "import secrets; print(secrets.token_hex(32))"
 
-### B-L2. Flyer app — Render, ~20 min
-1. Ensure `requirements.txt` includes `flask`, `requests`, `gunicorn`.
-2. render.com → New → Web Service → connect repo.
-   - Build: `pip install -r requirements.txt`
-   - Start: `gunicorn flyer_app:app --bind 0.0.0.0:$PORT`
-3. Add env vars from the table (keep `STANNP_TEST_MODE=1` until verified).
-4. The app reads `motivated_sellers.csv` — simplest wiring: commit the weekly CSV from the Actions run (add a commit step to the workflow), or upload manually while prototyping.
-5. **Access control**: the prototype has none. Before exposing publicly, at minimum enable Render's basic auth / put it behind Cloudflare Access; properly, add login + per-user Stripe billing.
+# Run with gunicorn
+gunicorn run:app --bind 0.0.0.0:5000 --workers 1 --timeout 120
 
-### First-run verification checklist (L2)
-- [ ] Homedata address-reveal endpoint path & response fields (coded as `GET /listing-address/{listing_id}/` — docs were unreachable at build time)
-- [ ] Stannp postcard params (`/v1/postcards/create`, recipient[] fields, HTML front)
-- [ ] Send one TEST flyer → review Stannp proof PDF for layout
-- [ ] Confirm `sent_log.csv` dedupe (re-selecting a sent property is blocked)
-- [ ] Only then: `STANNP_TEST_MODE=0`, send 1 live flyer to your own address
+# Or use the Procfile with a process manager
+```
 
-## Running costs
+**Important:** Use `--workers 1` because the app uses file-based storage. Multiple workers would cause data corruption.
+
+### Production (Render)
+
+1. Connect repo at render.com → New → Web Service
+2. Build: `pip install -r requirements.txt`
+3. Start: auto-detected from `Procfile`
+4. Add env vars from the table above
+
+### Weekly Digest (GitHub Actions)
+
+The workflow at `.github/workflows/weekly-digest.yml` runs automatically every Monday 07:00 UTC. Add secrets in Settings → Secrets → Actions.
+
+## Architecture
+
+```
+Request → Flask Blueprint (routes.py)
+              ├── auth.py (session, brute-force)
+              ├── models.py (file I/O with thread locks)
+              └── services.py (Homedata, Stannp APIs)
+```
+
+- **Thread-safe file I/O**: All write operations use `threading.Lock`
+- **Structured logging**: `logging` module throughout (replaces `print()`)
+- **Health check**: `GET /healthz` returns `{"status": "ok"}`
+- **Blueprint-based routing**: All routes in a single `main` blueprint
+
+## Running Costs
 
 | Item | Cost |
 |---|---|
-| Static hosting, GitHub Actions, Resend, Stripe | £0 fixed (Stripe ~1.5% + 20p per transaction) |
-| Homedata | Free ≤100 calls/mo (≈3 digest runs + reveals); Starter plan when scaling |
-| Render web service | Free tier (sleeps when idle) or $7/mo always-on |
-| Per flyer | ~£0.20 reveal + ~£0.85 Stannp = ~£1.05 (suggest £2+ resale) |
+| GitHub Actions, Resend free tier | £0 |
+| Homedata | Free ≤100 calls/mo |
+| EC2 t3.micro | ~$8/mo (or free tier) |
+| Per flyer | ~£1.05 (suggest £2+ resale) |
 
-## Compliance notes
+## Compliance Notes
 
-- Flyers address "The Homeowner" — no personal data processed; keep the printed opt-out line and honour it (maintain a suppression list as it grows).
-- Digest sells derived scores, not raw data redistribution — confirm scale use with Homedata (their industry packs cover property sourcers).
+- Flyers address "The Homeowner" — no personal data processed; keep the printed opt-out line.
+- Digest sells derived scores, not raw data redistribution — confirm scale use with Homedata.
 - Landing page keeps the "not investment advice" disclaimer — leave it in.

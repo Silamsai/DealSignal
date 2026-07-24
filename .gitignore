@@ -7,15 +7,22 @@ __pycache__/
 .env
 .flaskenv
 
-# Local data & temp caches (keep subscribers/brand structure configs)
+# Local data & temp caches
 data/scan.json
 data/motivated_sellers.csv
 data/motivated_sellers_*.csv
 data/sent_log.csv
 data/admin_auth.json
 data/users.json
+data/seller_leads.csv
+data/subscribers.csv
+data/subscribers.txt
 preview_digest_*.html
 
 # OS temporary files
 .DS_Store
 Thumbs.db
+
+# IDE
+.vscode/
+.idea/
