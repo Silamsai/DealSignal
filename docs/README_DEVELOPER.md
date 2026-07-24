@@ -21,8 +21,15 @@ weekly-digest/
 │   │   ├── login.html               <-- Login form
 │   │   ├── signup.html              <-- Signup form
 │   │   ├── dashboard.html           <-- Flyer workspace (auth required)
-│   │   └── account.html             <-- Account settings (auth required)
+│   │   ├── account.html             <-- Account settings (auth required)
+│   │   ├── deal_alerts_landing.html <-- Subscription sales page for investors
+│   │   └── seller_landing.html      <-- Homeowner cash-offer landing page
 │   └── static/                      <-- Static assets
+│
+├── bin/                             <-- Command line automation scripts
+│   ├── motivated_seller_finder.py   <-- Real-time property scanner & scorer
+│   ├── run_weekly.py                <-- Weekly batch email automation
+│   └── send_digest.py               <-- Manual email tool (legacy)
 │
 ├── .github/
 │   └── workflows/
@@ -35,23 +42,18 @@ weekly-digest/
 │   ├── seller_leads.csv             <-- Homeowner inquiry leads
 │   └── sent_log.csv                 <-- Postcard delivery audit trail
 │
-├── docs/                            <-- Technical instructions & reports
+├── docs/                            <-- Technical instructions & reports (this folder)
 │   ├── DEPLOYMENT.md                <-- Production setup guides
 │   ├── HOW_IT_WORKS.md              <-- Scoring engine & API pipeline
-│   └── UK_Lead_Gen_Niche_Research_Report.md
+│   ├── UK_Lead_Gen_Niche_Research_Report.md
+│   └── README_DEVELOPER.md          <-- This guide
 │
-├── deal_alerts_landing.html         <-- Subscription sales page for investors
-├── seller_landing.html              <-- Homeowner cash-offer landing page
-├── motivated_seller_finder.py       <-- Real-time property scanner & scorer
-├── run_weekly.py                    <-- Weekly batch email automation
-├── send_digest.py                   <-- Manual email tool (legacy)
 ├── run.py                           <-- App entry point (dev & production)
 ├── flyer.py                         <-- Backward-compatible wrapper
 ├── Procfile                         <-- Production process config
 ├── requirements.txt                 <-- Python dependencies
 ├── .env.template                    <-- Environment variable template
-├── .gitignore                       <-- Version control exclusions
-└── README_DEVELOPER.md              <-- This file
+└── .gitignore                       <-- Version control exclusions
 ```
 
 ## Prerequisites

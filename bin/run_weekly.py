@@ -62,7 +62,9 @@ def load_groups():
 
 
 def run_finder(area, max_price, out_csv):
-    cmd = [sys.executable, "motivated_seller_finder.py",
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    finder_path = os.path.join(script_dir, "motivated_seller_finder.py")
+    cmd = [sys.executable, finder_path,
            "--area", area, "--max-price", str(max_price),
            "--deep-dive", str(DEEP_DIVE), "--out", out_csv]
     print(f"\n=== Scanning {area} (max £{max_price}) ===")

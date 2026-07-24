@@ -39,7 +39,7 @@ jobs:
           FROM_EMAIL: ${{ secrets.FROM_EMAIL }}
           DEEP_DIVE: ${{ vars.DEEP_DIVE || 3 }}
           MAX_CALLS: ${{ vars.MAX_CALLS || 95 }}
-        run: python run_weekly.py
+        run: python bin/run_weekly.py
 
       - name: Archive this week's results
         uses: actions/upload-artifact@v4

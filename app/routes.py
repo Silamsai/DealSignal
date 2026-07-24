@@ -186,7 +186,7 @@ def scan():
         flash("Set HOMEDATA_API_KEY first.", "error")
         return redirect(url_for("main.app_dashboard"))
 
-    finder_path = os.path.join(BASE_DIR, "motivated_seller_finder.py")
+    finder_path = os.path.join(BASE_DIR, "bin", "motivated_seller_finder.py")
     cmd = [
         sys.executable, finder_path,
         "--area", area, "--max-price", max_price,
@@ -302,24 +302,12 @@ def send():
 # ------------------------------------------------------------------ landing pages
 @bp.route("/landing")
 def landing():
-    try:
-        landing_path = os.path.join(BASE_DIR, "deal_alerts_landing.html")
-        with open(landing_path, "r", encoding="utf-8") as f:
-            return f.read()
-    except FileNotFoundError:
-        logger.error("Landing page file not found")
-        return "Landing page file not found", 404
+    return render_template("deal_alerts_landing.html")
 
 
 @bp.route("/sell")
 def sell_landing():
-    try:
-        seller_path = os.path.join(BASE_DIR, "seller_landing.html")
-        with open(seller_path, "r", encoding="utf-8") as f:
-            return render_template_string(f.read(), brand=load_brand())
-    except FileNotFoundError:
-        logger.error("Seller landing page template not found")
-        return "Seller landing page template not found", 404
+    return render_template("seller_landing.html", brand=load_brand())
 
 
 @bp.route("/sell-inquiry", methods=["POST"])
