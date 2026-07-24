@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sell Your House Fast For Cash | {{ brand.name }}</title>
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
     <meta name="description"
         content="{{ brand.tagline }}. Guaranteed cash offer in 24 hours. No estate agent fees, no chain delays, complete confidentiality.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,7 +13,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --brand-color: {{ brand.colour or '#14273d' }};
+            --brand-color: {
+                    {
+                    brand.colour or '#14273d'
+                }
+            }
+
+            ;
             --brand-light: #f4f6f9;
             --slate-900: #0f172a;
             --slate-800: #1e293b;
@@ -22,7 +29,8 @@
             --emerald-600: #059669;
             --emerald-700: #047857;
             --white: #ffffff;
-            --font: 'Inter', sans-serif;
+            --font: 'Inter',
+            sans-serif;
         }
 
         * {
@@ -342,8 +350,24 @@
     <header>
         <div class="container header-inner">
             <a class="logo" href="/sell">
-                <span class="logo-mark" aria-hidden="true">D</span>
-                <span class="logo-text">
+                <svg width="30" height="30" viewBox="0 0 32 32" style="border-radius:6px; overflow:hidden;" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="header-logo-grad-seller" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="var(--brand-color, #14273d)" />
+                            <stop offset="100%" stop-color="#1e5c3a" />
+                        </linearGradient>
+                    </defs>
+                    <rect width="32" height="32" fill="url(#header-logo-grad-seller)" />
+                    <path d="M10 8h5.5a8 8 0 0 1 8 8v0a8 8 0 0 1-8 8H10V8z" stroke="#ffffff" stroke-width="2.2"
+                        stroke-linejoin="round" />
+                    <line x1="13" y1="12" x2="13" y2="20" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" />
+                    <path d="M16 13a3 3 0 0 1 3 3v0a3 3 0 0 1-3 3" stroke="#ffffff" stroke-width="1.8"
+                        stroke-linecap="round" stroke-dasharray="1 1" opacity="0.8" />
+                    <path d="M16 11a5 5 0 0 1 5 5v0a5 5 0 0 1-5 5" stroke="#ffffff" stroke-width="1.5"
+                        stroke-linecap="round" opacity="0.5" />
+                </svg>
+                <span class="logo-text" style="margin-left: 2px;">
                     <strong>{{ brand.name }}</strong>
                     <span>Cash home buyers</span>
                 </span>

@@ -1,11 +1,18 @@
 <!DOCTYPE html>
 <html lang="en-GB">
+
 <head>
   <meta charset="UTF-8">
   <title>Login | DealSignal</title>
+  <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     body {
       font-family: -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       background: #f6f8fa;
@@ -14,6 +21,7 @@
       display: flex;
       flex-direction: column;
     }
+
     .top {
       display: flex;
       justify-content: space-between;
@@ -23,6 +31,7 @@
       margin: 0 auto;
       padding: 24px 20px 0;
     }
+
     .logo {
       font-weight: 800;
       font-size: 1.15rem;
@@ -33,6 +42,7 @@
       gap: 10px;
       letter-spacing: -0.03em;
     }
+
     .brand-mark {
       width: 34px;
       height: 34px;
@@ -48,14 +58,23 @@
       letter-spacing: -0.05em;
       line-height: 1;
     }
-    .logo strong { font-size: 1.15rem; letter-spacing: -0.04em; }
+
+    .logo strong {
+      font-size: 1.15rem;
+      letter-spacing: -0.04em;
+    }
+
     .top a.back {
       color: #5a6472;
       font-size: 0.9rem;
       font-weight: 600;
       text-decoration: none;
     }
-    .top a.back:hover { color: #14273d; }
+
+    .top a.back:hover {
+      color: #14273d;
+    }
+
     .main {
       flex: 1;
       display: flex;
@@ -63,6 +82,7 @@
       justify-content: center;
       padding: 40px 20px 64px;
     }
+
     .login-card {
       width: 100%;
       max-width: 420px;
@@ -71,18 +91,25 @@
       border-radius: 12px;
       padding: 36px 32px;
     }
+
     .login-card h1 {
       font-size: 1.45rem;
       color: #14273d;
       margin-bottom: 6px;
     }
+
     .subtitle {
       font-size: 0.95rem;
       color: #5a6472;
       margin-bottom: 28px;
       line-height: 1.5;
     }
-    .form-group { margin-bottom: 16px; text-align: left; }
+
+    .form-group {
+      margin-bottom: 16px;
+      text-align: left;
+    }
+
     .form-label {
       display: block;
       font-size: 0.8rem;
@@ -90,6 +117,7 @@
       color: #14273d;
       margin-bottom: 6px;
     }
+
     .form-input {
       width: 100%;
       background: #f6f8fa;
@@ -101,12 +129,20 @@
       font-size: 0.95rem;
       outline: none;
     }
+
     .form-input:focus {
       background: #fff;
       border-color: #14273d;
     }
-    .password-wrapper { position: relative; }
-    .password-wrapper .form-input { padding-right: 48px; }
+
+    .password-wrapper {
+      position: relative;
+    }
+
+    .password-wrapper .form-input {
+      padding-right: 48px;
+    }
+
     .toggle-password {
       position: absolute;
       right: 12px;
@@ -120,7 +156,11 @@
       display: flex;
       align-items: center;
     }
-    .toggle-password:hover { color: #14273d; }
+
+    .toggle-password:hover {
+      color: #14273d;
+    }
+
     .btn {
       width: 100%;
       background: #14273d;
@@ -134,8 +174,16 @@
       cursor: pointer;
       margin-top: 8px;
     }
-    .btn:hover { background: #1c3228; }
-    .btn:disabled { opacity: 0.55; cursor: not-allowed; }
+
+    .btn:hover {
+      background: #1c3228;
+    }
+
+    .btn:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+
     .alert {
       background: #fdeaea;
       border: 1px solid #eec3c3;
@@ -146,11 +194,13 @@
       margin-bottom: 18px;
       text-align: left;
     }
+
     .footer-link {
       margin-top: 22px;
       text-align: center;
       font-size: 0.88rem;
     }
+
     .footer-link a {
       color: #1e5c3a;
       font-weight: 600;
@@ -158,11 +208,28 @@
     }
   </style>
 </head>
+
 <body>
   <div class="top">
     <a class="logo" href="/">
-      <span class="brand-mark" aria-hidden="true">D</span>
-      <strong>DealSignal</strong>
+      <svg width="30" height="30" viewBox="0 0 32 32" style="border-radius:6px; overflow:hidden;" fill="none"
+        xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="header-logo-grad-login" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#14273d" />
+            <stop offset="100%" stop-color="#1e5c3a" />
+          </linearGradient>
+        </defs>
+        <rect width="32" height="32" fill="url(#header-logo-grad-login)" />
+        <path d="M10 8h5.5a8 8 0 0 1 8 8v0a8 8 0 0 1-8 8H10V8z" stroke="#ffffff" stroke-width="2.2"
+          stroke-linejoin="round" />
+        <line x1="13" y1="12" x2="13" y2="20" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" />
+        <path d="M16 13a3 3 0 0 1 3 3v0a3 3 0 0 1-3 3" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round"
+          stroke-dasharray="1 1" opacity="0.8" />
+        <path d="M16 11a5 5 0 0 1 5 5v0a5 5 0 0 1-5 5" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round"
+          opacity="0.5" />
+      </svg>
+      <strong style="margin-left: 2px;">DealSignal</strong>
     </a>
     <a class="back" href="/">← Back to home</a>
   </div>
@@ -172,38 +239,43 @@
       <p class="subtitle">Enter your email and password from Sign up.</p>
 
       {% with messages = get_flashed_messages(category_filter=["login_error"]) %}
-        {% if messages %}
-          {% for msg in messages %}
-            <div class="alert">{{ msg }}</div>
-          {% endfor %}
-        {% endif %}
+      {% if messages %}
+      {% for msg in messages %}
+      <div class="alert">{{ msg }}</div>
+      {% endfor %}
+      {% endif %}
       {% endwith %}
 
       <form method="POST" action="{{ url_for('main.login') }}">
         <input type="hidden" name="next" value="{{ next_url }}">
         <div class="form-group">
           <label class="form-label" for="username">Email or username</label>
-          <input class="form-input" type="text" id="username" name="username" placeholder="admin or you@example.com" required autofocus {% if login_locked %}disabled{% endif %}>
+          <input class="form-input" type="text" id="username" name="username" placeholder="admin or you@example.com"
+            required autofocus {% if login_locked %}disabled{% endif %}>
         </div>
         <div class="form-group">
           <label class="form-label" for="password">Password</label>
           <div class="password-wrapper">
-            <input class="form-input" type="password" id="password" name="password" placeholder="••••••••" required {% if login_locked %}disabled{% endif %}>
+            <input class="form-input" type="password" id="password" name="password" placeholder="••••••••" required {%
+              if login_locked %}disabled{% endif %}>
             <button type="button" class="toggle-password" id="togglePassword" aria-label="Show password">
-              <svg id="eyeOpen" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-                <circle cx="12" cy="12" r="3"/>
+              <svg id="eyeOpen" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                <circle cx="12" cy="12" r="3" />
               </svg>
-              <svg id="eyeClosed" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
-                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/>
-                <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/>
-                <line x1="1" y1="1" x2="23" y2="23"/>
-                <path d="M14.12 14.12a3 3 0 1 1-4.24-4.24"/>
+              <svg id="eyeClosed" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94" />
+                <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19" />
+                <line x1="1" y1="1" x2="23" y2="23" />
+                <path d="M14.12 14.12a3 3 0 1 1-4.24-4.24" />
               </svg>
             </button>
           </div>
         </div>
-        <button class="btn" type="submit" {% if login_locked %}disabled{% endif %}>{% if login_locked %}Temporarily locked{% else %}Sign In{% endif %}</button>
+        <button class="btn" type="submit" {% if login_locked %}disabled{% endif %}>{% if login_locked %}Temporarily
+          locked{% else %}Sign In{% endif %}</button>
       </form>
 
       <div class="footer-link">
@@ -214,7 +286,7 @@
   </div>
 
   <script>
-    document.getElementById('togglePassword').addEventListener('click', function() {
+    document.getElementById('togglePassword').addEventListener('click', function () {
       var pwd = document.getElementById('password');
       var eyeOpen = document.getElementById('eyeOpen');
       var eyeClosed = document.getElementById('eyeClosed');
@@ -232,4 +304,5 @@
     });
   </script>
 </body>
+
 </html>
