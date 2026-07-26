@@ -89,8 +89,8 @@ DEFAULT_BRAND = {
     "name": "DealSignal",
     "tagline": "We buy houses in any condition",
     "phone": "01274 000 000",
-    "email": "hello@example.co.uk",
-    "website": "www.example.co.uk",
+    "email": "hello@dealsignal.co.uk",
+    "website": "www.dealsignal.co.uk",
     "colour": "#14273d",
     "message": (
         "We noticed your property has been on the market for a while. "
