@@ -330,3 +330,9 @@ def sell_inquiry():
         flash("Error saving details. Please try again.", "error")
 
     return redirect(url_for("main.sell_landing"))
+
+
+@bp.route("/privacy")
+def privacy():
+    return render_template("privacy.html", brand=load_brand())
+

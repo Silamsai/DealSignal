@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy | {{ brand.name }}</title>
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --brand-color: #14273d;
+            --brand-light: #f4f6f9;
+            --slate-900: #0f172a;
+            --slate-700: #334155;
+            --slate-600: #475569;
+            --slate-200: #e2e8f0;
+            --white: #ffffff;
+            --font: 'Inter', sans-serif;
+        }
+
+        body {
+            font-family: var(--font);
+            color: var(--slate-900);
+            background: var(--brand-light);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 24px;
+        }
+
+        .card {
+            background: var(--white);
+            border: 1px solid var(--slate-200);
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        header {
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .back-link {
+            color: var(--slate-600);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .back-link:hover {
+            color: var(--slate-900);
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--brand-color);
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--brand-color);
+            margin-top: 30px;
+            margin-bottom: 12px;
+        }
+
+        p {
+            color: var(--slate-700);
+            margin-bottom: 16px;
+        }
+
+        ul {
+            margin-bottom: 16px;
+            padding-left: 20px;
+            color: var(--slate-700);
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        footer {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--slate-600);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <a href="/" style="font-weight:800; font-size:1.1rem; color:var(--brand-color); text-decoration:none;">{{
+                brand.name }}</a>
+            <a href="javascript:history.back()" class="back-link">&larr; Go Back</a>
+        </header>
+
+        <main class="card">
+            <h1>Privacy Policy</h1>
+            <p>Last updated: July 2026</p>
+            <p>This privacy policy explains how {{ brand.name }} ("we", "our", or "us") collects, uses, and stores
+                personal data in accordance with the UK General Data Protection Regulation (UK GDPR) and Data Protection
+                Act 2018.</p>
+
+            <h2>1. Information We Collect</h2>
+            <p>We receive and process property-related inquiries and user registration data. This may include:</p>
+            <ul>
+                <li>Contact details (name, email address, telephone number)</li>
+                <li>Property postcodes and reasons for selling</li>
+                <li>System logins, connection credentials, and preferences for registered investors</li>
+            </ul>
+
+            <h2>2. How We Use Your Data</h2>
+            <p>Your details are processed for the following purposes:</p>
+            <ul>
+                <li>Evaluating property information to formulate direct cash offers</li>
+                <li>Contacting you regarding your offer or account setup status</li>
+                <li>Providing motivates listing feeds and postcode alerts directly to investors</li>
+            </ul>
+
+            <h2>3. Storage and Safety</h2>
+            <p>All data is stored securely in England using local file-based systems (CSV/JSON files) or database
+                configurations. We implement administrative and digital measures to prevent unauthorized data loss,
+                alteration, or theft.</p>
+
+            <h2>4. Third-Party Sharing</h2>
+            <p>We do not sell, rent, or distribute user identification details or homeowner listing coordinates to
+                third-party advertisers or brokers. Details are shared only where legally necessary or with explicit
+                consent to process your specific transaction.</p>
+
+            <h2>5. Your Rights</h2>
+            <p>Under the UK GDPR, you have the right to request access to, correction of, or permanent deletion of your
+                stored information. To exercise these rights, please contact us at {{ brand.email }}.</p>
+        </main>
+
+        <footer>
+            &copy; 2026 {{ brand.name }}. All rights reserved.
+        </footer>
+    </div>
+</body>
+
+</html>
