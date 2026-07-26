@@ -56,7 +56,7 @@ def _render_dashboard(preview_html=None, preview_back=None):
 # ------------------------------------------------------------------ public
 @bp.route("/")
 def home():
-    return render_template("home.html")
+    return render_template("home.html", brand=load_brand())
 
 
 @bp.route("/healthz")

@@ -23,6 +23,50 @@
             --white: #fff;
             --green: #1e5c3a;
             --green-soft: #e8f2ec;
+
+            --brand-color: {
+                    {
+                    brand.colour or '#14273d'
+                }
+            }
+
+            ;
+            --brand-light: #f4f6f9;
+        }
+
+        .hero__path-card {
+            background: var(--white);
+            border: 2px solid var(--line);
+            border-radius: 16px;
+            padding: 32px 28px;
+            text-decoration: none;
+            color: inherit;
+            transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            text-align: left;
+            box-shadow: 0 4px 6px -1px rgba(20, 39, 61, 0.03);
+        }
+
+        .hero__path-card:hover {
+            border-color: var(--green) !important;
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px -10px rgba(30, 92, 58, 0.18) !important;
+        }
+
+        .hero__paths {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            max-width: 800px;
+            margin: 0 0 36px;
+        }
+
+        @media (max-width: 768px) {
+            .hero__paths {
+                grid-template-columns: 1fr;
+            }
         }
 
         * {
@@ -751,98 +795,100 @@
 
         <section class="hero">
             <h1 class="hero__brand">DealSignal</h1>
-            <p class="hero__line">Find motivated UK sellers faster — or request a simple cash offer if you're selling
-                your home.</p>
-            <div class="hero__cta" style="align-items: center;">
-                <a class="btn btn-primary" href="{{ url_for('main.signup') }}">Create free account</a>
-                <a href="{{ url_for('main.login') }}"
-                    style="font-weight: 700; font-size: 0.9rem; color: var(--muted); text-decoration: none; margin-left: 12px; transition: color .15s;"
-                    onmouseover="this.style.color='var(--ink)'" onmouseout="this.style.color='var(--muted)'">Login</a>
-            </div>
-            <div class="hero__visual" aria-hidden="true">
-                <div class="hero__visual-inner">
-                    <p>What you get</p>
-                    <strong>A clear shortlist of sellers who are more likely to negotiate — not a long raw property
-                        search.</strong>
-                    <div class="hero__chips">
-                        <span>1 · Sign up</span>
-                        <span>2 · Login</span>
-                        <span>3 · Use workspace</span>
-                    </div>
-                </div>
-            </div>
-        </section>
+            <p class="hero__line" style="margin-bottom: 32px;">Find motivated UK sellers faster — or request a simple
+                cash offer if you're selling your home.</p>
 
-        <section id="why">
-            <h2 class="section-title reveal">Why it's used</h2>
-            <p class="section-copy reveal">Most property sites show every listing. DealSignal focuses on sellers who
-                look ready to negotiate.</p>
-            <div class="why">
-                <div class="why-card reveal">
-                    <h3>Less noise</h3>
-                    <p>Get a ranked shortlist instead of scrolling hundreds of adverts.</p>
-                </div>
-                <div class="why-card reveal">
-                    <h3>Clear next step</h3>
-                    <p>Sign up, login, then use the workspace to scan, brand, and preview flyers.</p>
-                </div>
-                <div class="why-card reveal">
-                    <h3>Two audiences</h3>
-                    <p>Investors and homeowners each get a simple path that fits what they need.</p>
-                </div>
+            <!-- Side-by-side branch paths -->
+            <div class="hero__paths reveal">
+                <a class="hero__path-card" href="/landing">
+                    <div>
+                        <div
+                            style="background: var(--green-soft); color: var(--green); display: inline-block; padding: 4px 10px; border-radius: 6px; font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 14px;">
+                            Properties &amp; Leads</div>
+                        <h2
+                            style="font-size: 1.45rem; font-weight: 800; color: var(--ink); margin-bottom: 10px; font-family: 'Source Serif 4', Georgia, serif;">
+                            I'm an investor &rarr;</h2>
+                        <p
+                            style="font-size: 0.92rem; color: var(--muted); line-height: 1.5; margin-bottom: 20px; font-family: Manrope, sans-serif;">
+                            Scan UK postcodes, track price cuts, view motivation scores, and send mail templates.</p>
+                    </div>
+                    <span style="font-size: 0.9rem; font-weight: 700; color: var(--green);">Access Investor
+                        Platform</span>
+                </a>
+
+                <a class="hero__path-card" href="/sell">
+                    <div>
+                        <div
+                            style="background: rgba(20, 39, 61, 0.08); color: var(--ink); display: inline-block; padding: 4px 10px; border-radius: 6px; font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 14px;">
+                            Direct Cash Offer</div>
+                        <h2
+                            style="font-size: 1.45rem; font-weight: 800; color: var(--ink); margin-bottom: 10px; font-family: 'Source Serif 4', Georgia, serif;">
+                            I'm selling my home &rarr;</h2>
+                        <p
+                            style="font-size: 0.92rem; color: var(--muted); line-height: 1.5; margin-bottom: 20px; font-family: Manrope, sans-serif;">
+                            Get a guaranteed cash offer inside 24 hours. Zero agent fees, no chain collapses, and
+                            complete privacy.</p>
+                    </div>
+                    <span style="font-size: 0.9rem; font-weight: 700; color: var(--green);">Request Cash Offer</span>
+                </a>
+            </div>
+
+            <!-- Smaller login/signup workspace footer option -->
+            <div
+                style="font-size: 0.92rem; color: var(--muted); display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 10px; animation: rise .7s .24s ease both;">
+                <span>Want to use our workspace builder?</span>
+                <a class="btn btn-primary" href="{{ url_for('main.signup') }}"
+                    style="padding: 6px 12px; font-size: 0.8rem; background: var(--green); color: white;">Create free
+                    account</a>
+                <span style="opacity: 0.5;">or</span>
+                <a href="{{ url_for('main.login') }}"
+                    style="font-weight: 700; color: var(--ink); text-decoration: none;"
+                    onmouseover="this.style.textDecoration='underline'"
+                    onmouseout="this.style.textDecoration='none'">Login</a>
             </div>
         </section>
 
         <section id="how">
             <h2 class="section-title reveal">How it works</h2>
-            <p class="section-copy reveal">Three easy steps — follow this path and you're in.</p>
+            <p class="section-copy reveal">Three easy steps to start using the DealSignal workspace.</p>
             <div class="steps">
                 <div class="step reveal">
                     <div class="step__num">01</div>
                     <h3>Sign up</h3>
-                    <p>Enter your name, email, and password. This creates your account for demos and feedback.</p>
+                    <p>Enter your name, email, and password. This creates your account for beta access.</p>
                 </div>
                 <div class="step reveal">
                     <div class="step__num">02</div>
                     <h3>Login</h3>
-                    <p>Use that same email and password.</p>
+                    <p>Securely log in to access your custom workspace dashboard.</p>
                 </div>
                 <div class="step reveal">
                     <div class="step__num">03</div>
                     <h3>Open workspace</h3>
-                    <p>Scan an area, set your brand, preview a flyer poster, then send when keys are set up.</p>
+                    <p>Scan your target areas, set your custom branding, preview postcard designs, and send mailers.</p>
                 </div>
-            </div>
-        </section>
-
-        <section id="audience">
-            <h2 class="section-title reveal">Who it's for</h2>
-            <p class="section-copy reveal">Public pages below need no login. Use Sign up / Login only when you want the
-                workspace tools.</p>
-            <div class="paths">
-                <a class="path reveal" href="/landing">
-                    <h2>I'm an investor</h2>
-                    <p>Learn how weekly digests and motivation scores help you spot deals earlier.</p>
-                    <span class="go">Open investor page →</span>
-                </a>
-                <a class="path reveal" href="/sell">
-                    <h2>I'm selling my home</h2>
-                    <p>Ask for a cash offer — no agent fees and no chain. We'll contact you.</p>
-                    <span class="go">Request cash offer →</span>
-                </a>
             </div>
         </section>
 
         <section id="included">
             <h2 class="section-title reveal">What you get</h2>
-            <p class="section-copy reveal">The product in plain words.</p>
+            <p class="section-copy reveal">A complete toolkit for finding discounted property deals.</p>
             <div class="features">
                 <div class="feature reveal">
                     <h3>Finds motivated sellers</h3>
-                    <p>Looks for price cuts, long time on market, and similar signals — then ranks the strongest ones.
+                    <p>Aggregates price cuts, long days on market, and collapsed sales to highlight high-probability
+                        negotiation opportunities.</p>
+                    <p
+                        style="font-size: 0.82rem; margin-top: 12px; font-weight: 700; color: var(--green); display: flex; align-items: center; gap: 6px;">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                            style="color: var(--green);">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                        Updated weekly from live UK estate agency boards, land registry data, and historic listing
+                        timelines.
                     </p>
-                    <p style="font-size: 0.8rem; margin-top: 8px; font-weight: 600; color: var(--green);">Updated weekly
-                        from live listing boards and historic timeline events.</p>
                 </div>
                 <div class="feature reveal">
                     <h3>Flyer poster tools</h3>
@@ -1014,8 +1060,9 @@
                         <h3 style="font-size: 1.05rem; font-weight: 700; color: var(--slate-900); margin-bottom: 8px;">
                             How do I contact support?</h3>
                         <p style="font-size: 0.92rem; color: var(--slate-600); line-height: 1.5; margin: 0;">You can
-                            reach our support team directly by email at <a href="mailto:hello@YOURDOMAIN.co.uk"
-                                style="color: var(--brand-color); font-weight: 600; text-decoration: underline;">hello@YOURDOMAIN.co.uk</a>.
+                            reach our support team directly by email at <a href="mailto:{{ brand.email }}"
+                                style="color: var(--green); font-weight: 600; text-decoration: underline;">{{
+                                brand.email }}</a>.
                             We respond to all queries within one business day.</p>
                     </div>
                 </div>
@@ -1025,12 +1072,17 @@
         <section>
             <div class="band reveal">
                 <div>
-                    <h2>Ready to get started?</h2>
-                    <p>Get instant access to motivated seller intelligence and deal finding tools.</p>
+                    <h2>Ready to find motivated deals?</h2>
+                    <p>Unlock our proprietary postcode scanning and automated homeowner marketing tools today.</p>
                 </div>
-                <div class="actions">
-                    <a class="btn btn-primary" href="{{ url_for('main.signup') }}">Sign up</a>
-                    <a class="btn btn-line" href="{{ url_for('main.login') }}">Login</a>
+                <div class="actions" style="display: flex; gap: 16px; align-items: center; flex-wrap: wrap;">
+                    <a class="btn" href="{{ url_for('main.signup') }}"
+                        style="background: var(--white); color: var(--ink); border: 0; padding: 12px 24px; font-weight: 800; border-radius: 8px;">Create
+                        free account</a>
+                    <a href="{{ url_for('main.login') }}"
+                        style="color: rgba(255, 255, 255, 0.85); font-weight: 700; font-size: 0.9rem; text-decoration: none;"
+                        onmouseover="this.style.color='#fff'"
+                        onmouseout="this.style.color='rgba(255, 255, 255, 0.85)'">Login</a>
                 </div>
             </div>
         </section>
