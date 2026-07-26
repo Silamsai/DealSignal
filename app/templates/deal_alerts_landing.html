@@ -860,6 +860,108 @@
       }
     }
 
+    /* ===== MODAL STYLES ===== */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(2, 6, 23, 0.6);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+
+    .modal-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-box {
+      background: var(--white);
+      padding: 32px;
+      border-radius: 16px;
+      width: 90%;
+      max-width: 440px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      position: relative;
+      transform: scale(0.95);
+      transition: transform 0.25s ease;
+    }
+
+    .modal-overlay.open .modal-box {
+      transform: scale(1);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--slate-400);
+      transition: color 0.15s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px;
+      border-radius: 50%;
+    }
+
+    .modal-close:hover {
+      color: var(--slate-900);
+      background: var(--slate-50);
+    }
+
+    .modal-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--emerald-50);
+      color: var(--emerald-600);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .modal-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--slate-950);
+      margin-bottom: 8px;
+      letter-spacing: -0.02em;
+    }
+
+    .modal-desc {
+      font-size: 0.92rem;
+      color: var(--slate-600);
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+
+    .modal-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .modal-actions .btn {
+      width: 100%;
+      justify-content: center;
+      text-align: center;
+      padding: 12px;
+      font-size: 0.9rem;
+    }
+
     @media (max-width: 480px) {
       .metrics__grid {
         grid-template-columns: 1fr 1fr;
@@ -924,7 +1026,7 @@
       <p class="hero__subtitle">We scan every active listing in Bradford against 30 years of market data. You get a
         ranked shortlist of the 10 sellers most likely to accept a below-market offer.</p>
       <div class="hero__actions">
-        <a class="btn btn--primary" href="https://buy.stripe.com/YOUR_PAYMENT_LINK">Subscribe — £79/month</a>
+        <a class="btn btn--primary" href="#" onclick="openSubscribeModal(event)">Subscribe — £79/month</a>
         <a class="btn btn--ghost" href="/login">Staff login ↗</a>
         <a class="btn btn--ghost" href="#sample" style="border:none;">
           See a sample
@@ -1122,7 +1224,7 @@
             No contract, no lock-in — cancel anytime
           </li>
         </ul>
-        <a class="pricing__cta" href="https://buy.stripe.com/YOUR_PAYMENT_LINK">Start your subscription</a>
+        <a class="pricing__cta" href="#" onclick="openSubscribeModal(event)">Start your subscription</a>
         <div class="pricing__guarantee">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
             stroke-linecap="round" stroke-linejoin="round">
@@ -1207,7 +1309,7 @@
     <div class="container">
       <h2 class="cta-band__title">Stop guessing. Start with the data.</h2>
       <p class="cta-band__desc">Join investors who see the pattern before anyone else.</p>
-      <a class="btn btn--primary" href="https://buy.stripe.com/YOUR_PAYMENT_LINK">Subscribe — £79/month</a>
+      <a class="btn btn--primary" href="#" onclick="openSubscribeModal(event)">Subscribe — £79/month</a>
     </div>
   </div>
 
@@ -1224,6 +1326,35 @@
       </div>
     </div>
   </footer>
+
+  <!-- ===== COMING SOON MODAL ===== -->
+  <div class="modal-overlay" id="subscribe-modal" onclick="closeSubscribeModal(event)">
+    <div class="modal-box" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closeSubscribeModal(event)" aria-label="Close modal">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+      <div class="modal-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+          <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+        </svg>
+      </div>
+      <h3 class="modal-title">Subscription Coming Soon</h3>
+      <p class="modal-desc">
+        We are currently setting up our automated payment system. If you want to start your subscription early, please
+        register an account first, or email us at <strong>hello@YOURDOMAIN.co.uk</strong>.
+      </p>
+      <div class="modal-actions">
+        <a class="btn btn--primary" href="/signup">Sign up for an account</a>
+        <button class="btn btn--ghost" onclick="closeSubscribeModal(event)">Cancel</button>
+      </div>
+    </div>
+  </div>
 
   <script>
     // Header scroll effect
@@ -1243,6 +1374,27 @@
     }, { threshold: 0.15, rootMargin: '0px 0px -30px 0px' });
 
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Modal behavior
+    const modal = document.getElementById('subscribe-modal');
+
+    function openSubscribeModal(event) {
+      if (event) event.preventDefault();
+      modal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeSubscribeModal(event) {
+      if (event) event.preventDefault();
+      modal.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.classList.contains('open')) {
+        closeSubscribeModal();
+      }
+    });
   </script>
 
 </body>
